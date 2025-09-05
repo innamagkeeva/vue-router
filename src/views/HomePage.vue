@@ -8,7 +8,7 @@ import Sidebar from '@/components/SidebarPage.vue'
       <Sidebar />
     </div>
     <div class="pageHome">
-      <h1 class="pageHome__title">Домашняя страница</h1>
+      <h1 class="pageHome__title">Главная страница</h1>
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ import Sidebar from '@/components/SidebarPage.vue'
 .pageHome {
   flex: 1;
   padding-top: 40px;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
 .pageHome__title {

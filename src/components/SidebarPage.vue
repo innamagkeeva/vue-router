@@ -16,7 +16,8 @@
   height: 100vh;
   padding-top: 30px;
   padding-left: 10px;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
+  border-right: 1px solid grey;
 }
 
 .button {
