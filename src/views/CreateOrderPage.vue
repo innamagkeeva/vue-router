@@ -84,7 +84,7 @@ import Sidebar from '@/components/SidebarPage.vue'
 
 .create-order {
   width: 100%;
-  padding: 30px 10px;
+  padding: 30px;
 }
 
 .create-order__title {

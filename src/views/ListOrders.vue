@@ -1,5 +1,60 @@
 <script setup lang="ts">
 import Sidebar from '@/components/SidebarPage.vue'
+
+type OrderStatus = 'Новый' | 'В обработке' | 'Доставлен' | 'Отменён'
+
+interface Order {
+  id: number
+  customerName: string
+  address: string
+  data: string
+  status: OrderStatus
+  comment: string
+  productName: string
+}
+
+const orders: Order[] = [
+  {
+    id: 1,
+    customerName: 'Иван Петров',
+    address: 'Москва, Тверская 10',
+    data: '2025-08-20',
+    status: 'В обработке',
+    comment: 'Позвонить перед доставкой',
+    productName: 'Кроссовки X',
+  },
+  {
+    id: 2,
+    customerName: 'Анна Смирнова',
+    address: 'СПБ, Невский 25',
+    data: '2025-08-21',
+    status: 'Доставлен',
+    comment: 'Оставить у консьержа',
+    productName: 'Рюкзак Urban',
+  },
+  {
+    id: 3,
+    customerName: 'Павел Орлов',
+    address: 'Екатеринбург, Ленина 5',
+    data: '2025-08-22',
+    status: 'Отменён',
+    comment: 'Клиент передумал',
+    productName: 'Фитнес-бутылка',
+  },
+]
+
+function statusColor(status: string) {
+  switch (status) {
+    case 'Доставлен':
+      return 'green'
+    case 'В обработке':
+      return 'orange'
+    case 'Отменён':
+      return 'red'
+    default:
+      return ''
+  }
+}
 </script>
 
 <template>
@@ -12,6 +67,40 @@ import Sidebar from '@/components/SidebarPage.vue'
         <p class="list-orders__title">Список заказов</p>
         <button class="list-orders__button">Создать заказ</button>
       </div>
+
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th class="thead__name">Имя заказчика</th>
+
+            <th class="thead__address">Адрес</th>
+            <th class="thead__data">Дата</th>
+            <th class="thead__status">Статус</th>
+            <th class="thead__comment">Комментарий</th>
+            <th class="thead__product">название товара</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="order in orders"
+            :key="order.id"
+          >
+            <td class="thead__name">
+              {{ order.customerName }}
+            </td>
+            <td class="thead__address">{{ order.address }}</td>
+            <td class="thead__data">{{ order.data }}</td>
+            <td class="thead__status">
+              <span :class="['status-label', statusColor(order.status)]">
+                {{ order.status }}
+              </span>
+            </td>
+            <td class="thead__comment">{{ order.comment }}</td>
+            <td class="thead__product">{{ order.productName }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -34,6 +123,7 @@ import Sidebar from '@/components/SidebarPage.vue'
   width: 100%;
   height: 60px;
   padding: 10px;
+  margin-bottom: 30px;
 }
 
 .list-orders__title {
@@ -50,4 +140,67 @@ import Sidebar from '@/components/SidebarPage.vue'
   background-color: blue;
   color: white;
 }
+
+.order-table {
+  width: 100%;
+  height: 40px;
+  border-collapse: collapse;
+
+  border: 1px solid gray;
+}
+
+.order-table th,
+.order-table td {
+  padding: 10px;
+  text-align: left;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+.thead__name {
+  width: 135px;
+}
+.thead__address {
+  width: 300px;
+}
+.thead__data,
+.thead__status {
+  width: 120px;
+}
+.thead__comment {
+  width: 250px;
+}
+
+.status-label {
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.status-label.green {
+  background-color: green;
+}
+
+.status-label.orange {
+  background-color: orange;
+}
+
+.status-label.red {
+  background-color: red;
+}
 </style>
+
+<!-- ????????? Можно ли у последней колонки   <th class="th__product">название товара</th> НЕ ставить размер, чтоб было по умолчанию? или лучше посчитать? -->
+
+<!-- для себя: 
+ <table> Создаёт таблицу
+ <tr> Table Row — строка таблицы
+ <th> Table Header — ячейка-заголовок 
+ <tr> Table Row — строка таблицы 
+ <td> Table Data — обычная ячейка с данными
+ <tbody> — это контейнер для всех строк с данными таблицы.Он отделяет основные данные таблицы от её заголовков (<thead>) и нижней части (<tfoot>), если они используются.
+ 
+ border-collapse: collapse;
+  /* Оно объединяет (схлопывает) границы ячеек так, что между ними не остаётся промежутков, и они делят одну общую границу. */-->
