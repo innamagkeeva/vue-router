@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import Sidebar from '@/components/SidebarPage.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function saveOrder() {
+  router.push('/listOrders')
+}
+
+function cancel() {
+  router.push('/home')
+}
 </script>
 
 <template>
@@ -69,8 +80,18 @@ import Sidebar from '@/components/SidebarPage.vue'
           placeholder="Начните вводить название"
         />
         <div class="form__button">
-          <button class="form__btn form__button-save">сохранить заказ</button>
-          <button class="form__btn form__button-cancel">отменить</button>
+          <button
+            @click.prevent="saveOrder"
+            class="form__btn form__button-save"
+          >
+            сохранить заказ
+          </button>
+          <button
+            @click="cancel"
+            class="form__btn form__button-cancel"
+          >
+            отменить
+          </button>
         </div>
       </form>
     </div>

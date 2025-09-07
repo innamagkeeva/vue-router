@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import Sidebar from '@/components/SidebarPage.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function createOrder() {
+  router.push('/CreateOrder')
+}
 
 type OrderStatus = 'Новый' | 'В обработке' | 'Доставлен' | 'Отменён'
 
@@ -65,7 +72,12 @@ function statusColor(status: string) {
     <div class="list-orders">
       <div class="list-orders__header">
         <p class="list-orders__title">Список заказов</p>
-        <button class="list-orders__button">Создать заказ</button>
+        <button
+          @click="createOrder"
+          class="list-orders__button"
+        >
+          Создать заказ
+        </button>
       </div>
 
       <table class="order-table">

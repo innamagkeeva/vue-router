@@ -1,12 +1,52 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function getOut() {
+  router.push('/auth')
+}
+
+function switchToOrders() {
+  router.push('/listOrders')
+}
+
+function createOrder() {
+  router.push('/CreateOrder')
+}
+
+function goHome() {
+  router.push('/home')
+}
+</script>
 
 <template>
   <div class="wrapper">
     <h1 class="title">E-Shop Admin</h1>
-    <button class="button">Главная</button>
-    <button class="button">Заказы</button>
-    <button class="button">Создать заказ</button>
-    <button class="button">Выход</button>
+    <button
+      @click="goHome"
+      class="button"
+    >
+      Главная
+    </button>
+    <button
+      @click="switchToOrders"
+      class="button"
+    >
+      Заказы
+    </button>
+    <button
+      @click="createOrder"
+      class="button"
+    >
+      Создать заказ
+    </button>
+    <button
+      @click="getOut"
+      class="button"
+    >
+      Выход
+    </button>
   </div>
 </template>
 
