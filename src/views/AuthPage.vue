@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router'
+import { ref } from 'vue'
+
+const userName = ref<string>('')
+const password = ref<string>('')
+
+function login() {
+  if (userName.value && password.value) {
+    router.push('/home')
+  } else {
+    console.log('Введите пароль')
+  }
+}
+</script>
 
 <template>
   <div class="body">
@@ -10,15 +24,22 @@
           class="form__input"
           type="text"
           placeholder="Введите логин"
+          v-model="userName"
         />
         <p class="form__text">Пароль</p>
         <input
           class="form__input"
-          type="text"
+          type="password"
           placeholder="Введите пароль"
+          v-model="password"
         />
         <button class="form__button form__button-memorization">Запомнить меня</button>
-        <button class="form__button form__button-entrance">Войти</button>
+        <button
+          @click="login"
+          class="form__button form__button-entrance"
+        >
+          Войти
+        </button>
       </form>
     </div>
   </div>
