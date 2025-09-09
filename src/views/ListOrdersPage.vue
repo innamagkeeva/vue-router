@@ -131,7 +131,6 @@ function statusColor(status: string) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
   width: 100%;
   height: 60px;
   padding: 10px;
