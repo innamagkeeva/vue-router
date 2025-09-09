@@ -71,7 +71,6 @@ function login() {
   height: 40px;
   padding-left: 10px;
   outline: none;
-  box-sizing: border-box;
   border: 1px solid grey;
 }
 
