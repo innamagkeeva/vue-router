@@ -18,7 +18,10 @@ function login() {
   <div class="body">
     <div class="wrapper">
       <h1 class="title">Вход в админку</h1>
-      <form class="form">
+      <form
+        class="form"
+        @submit.prevent="login"
+      >
         <p class="form__text">Логин</p>
         <input
           class="form__input"
@@ -35,7 +38,7 @@ function login() {
         />
         <button class="form__button form__button-memorization">Запомнить меня</button>
         <button
-          @click="login"
+          type="submit"
           class="form__button form__button-entrance"
         >
           Войти
@@ -53,7 +56,6 @@ function login() {
 .wrapper {
   width: 500px;
   height: 500px;
-  /* background-color: gray; */
   margin: 0 auto;
   padding: 20px;
 }
@@ -70,7 +72,7 @@ function login() {
   padding-left: 10px;
   outline: none;
   box-sizing: border-box;
-  border: 1px solid rgb(219, 209, 209);
+  border: 1px solid grey;
 }
 
 .form__button {

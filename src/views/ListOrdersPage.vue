@@ -157,23 +157,20 @@ function statusColor(status: string) {
   width: 100%;
   height: 40px;
   border-collapse: collapse;
-
-  border: 1px solid gray;
 }
 
 .order-table th,
 .order-table td {
   padding: 10px;
   text-align: left;
-  border-right: 1px solid gray;
-  border-bottom: 1px solid gray;
+  border: 1px solid gray;
 }
 
 .thead__name {
-  width: 135px;
+  width: 180px;
 }
 .thead__address {
-  width: 300px;
+  width: 320px;
 }
 .thead__data,
 .thead__status {
@@ -203,8 +200,6 @@ function statusColor(status: string) {
   background-color: red;
 }
 </style>
-
-<!-- ????????? Можно ли у последней колонки   <th class="th__product">название товара</th> НЕ ставить размер, чтоб было по умолчанию? или лучше посчитать? -->
 
 <!-- для себя: 
  <table> Создаёт таблицу

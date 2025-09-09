@@ -17,11 +17,10 @@ import Sidebar from '@/components/SidebarPage.vue'
 .main {
   display: flex;
 }
-/* ??? как лучше назвать этот класс? если называю wrapper - то почему-то путает стили из другого компонента, хотя на стилях стоит scoped  */
+
 .pageHome {
   flex: 1;
   padding-top: 40px;
-  /* box-sizing: border-box; */
 }
 
 .pageHome__title {
@@ -29,5 +28,3 @@ import Sidebar from '@/components/SidebarPage.vue'
   margin: 0 auto;
 }
 </style>
-
-<!-- на этом этапе надо разобраться почему боковой скролл..  -->

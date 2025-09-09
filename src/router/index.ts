@@ -1,4 +1,4 @@
-import { createWebHashHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 import AuthPage from "@/views/AuthPage.vue";
 import CreateOrderPage from "@/views/CreateOrderPage.vue";
@@ -7,7 +7,7 @@ import ListOrdersPage from "@/views/ListOrdersPage.vue";
 
 const routes = [
   {
-    path: '/auth',
+    path: '/Auth',
     component: AuthPage
   },
   {
@@ -25,7 +25,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 })
 

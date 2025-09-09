@@ -1,52 +1,29 @@
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-function getOut() {
-  router.push('/auth')
-}
-
-function switchToOrders() {
-  router.push('/listOrders')
-}
-
-function createOrder() {
-  router.push('/CreateOrder')
-}
-
-function goHome() {
-  router.push('/home')
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="wrapper">
     <h1 class="title">E-Shop Admin</h1>
-    <button
-      @click="goHome"
-      class="button"
+
+    <RouterLink
+      to="/home"
+      class="routerLink__style"
+      >Главная</RouterLink
     >
-      Главная
-    </button>
-    <button
-      @click="switchToOrders"
-      class="button"
+    <RouterLink
+      to="/listOrders"
+      class="routerLink__style"
+      >Заказы</RouterLink
     >
-      Заказы
-    </button>
-    <button
-      @click="createOrder"
-      class="button"
+    <RouterLink
+      to="/CreateOrder"
+      class="routerLink__style"
+      >Создать заказ</RouterLink
     >
-      Создать заказ
-    </button>
-    <button
-      @click="getOut"
-      class="button"
+    <RouterLink
+      to="/Auth"
+      class="routerLink__style"
+      >Выход</RouterLink
     >
-      Выход
-    </button>
   </div>
 </template>
 
@@ -56,17 +33,18 @@ function goHome() {
   height: 100vh;
   padding-top: 30px;
   padding-left: 10px;
-  /* box-sizing: border-box; */
   border-right: 1px solid grey;
 }
 
-.button {
+.title {
+  margin-bottom: 20px;
+}
+
+.routerLink__style {
   display: block;
-  width: 100%;
-  height: 40px;
-  margin-bottom: 15px;
-  border: none;
-  background-color: white;
+  line-height: 40px;
+  text-align: center;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 </style>
