@@ -7,7 +7,7 @@ import ListOrdersPage from "@/views/ListOrdersPage.vue";
 
 const routes = [
   {
-    path: '/Auth',
+    path: '/',
     component: AuthPage
   },
   {
