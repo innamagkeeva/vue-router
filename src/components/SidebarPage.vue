@@ -20,7 +20,7 @@
       >Создать заказ</RouterLink
     >
     <RouterLink
-      to="/Auth"
+      to="/"
       class="routerLink__style"
       >Выход</RouterLink
     >
