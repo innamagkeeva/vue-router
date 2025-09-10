@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import Sidebar from '@/components/SidebarPage.vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+import Sidebar from '@/components/SidebarPage.vue'
 
 const router = useRouter()
 
-function saveOrder() {
-  router.push('/listOrders')
-}
+type Status = 'В обработке' | 'Доставлен' | 'Отменен'
 
-function cancel() {
-  router.push('/home')
+const userName = ref<string>('')
+const address = ref<string>('')
+const data = ref<string>('')
+const status = ref<Status>('В обработке')
+const comment = ref<string>('')
+const product = ref<string>('')
+
+function saveOrder() {
+  if (userName.value && address.value && data.value && comment.value && product.value) {
+    router.push('/listOrders')
+  } else {
+    console.log('Введите все данные')
+  }
 }
 </script>
 
@@ -21,7 +32,10 @@ function cancel() {
 
     <div class="create-order">
       <h1 class="create-order__title">Создать заказ</h1>
-      <form class="form">
+      <form
+        class="form"
+        @submit.prevent="saveOrder"
+      >
         <div class="form__row">
           <div class="form__user-data">
             <p class="form__title">Имя заказчика</p>
@@ -30,6 +44,7 @@ function cancel() {
               type="text"
               name="name"
               placeholder="Например: Иван Петров"
+              v-model="userName"
             />
           </div>
 
@@ -40,6 +55,7 @@ function cancel() {
               type="text"
               name="name"
               placeholder="Город, улица, дом, кв"
+              v-model="address"
             />
           </div>
         </div>
@@ -51,6 +67,7 @@ function cancel() {
               class="input__name"
               type="data"
               placeholder="введите дату"
+              v-model="data"
             />
           </div>
 
@@ -61,6 +78,7 @@ function cancel() {
               type="text"
               name="status"
               placeholder="Новый"
+              v-model="status"
             />
           </div>
         </div>
@@ -70,6 +88,7 @@ function cancel() {
           class="form__comment"
           name="comment"
           placeholder="Комментарий"
+          v-model="comment"
         ></textarea>
 
         <p class="form__title">Название товара</p>
@@ -78,20 +97,20 @@ function cancel() {
           type="text"
           name="product"
           placeholder="Начните вводить название"
+          v-model="product"
         />
         <div class="form__button">
           <button
-            @click.prevent="saveOrder"
+            type="submit"
             class="form__btn form__button-save"
           >
             сохранить заказ
           </button>
-          <button
-            @click="cancel"
+          <RouterLink
             class="form__btn form__button-cancel"
+            :to="{ name: 'home' }"
+            >Отменить</RouterLink
           >
-            отменить
-          </button>
         </div>
       </form>
     </div>
@@ -163,12 +182,11 @@ function cancel() {
 
 .form__button-cancel {
   border: 1px solid black;
+  text-align: center;
+  line-height: 40px;
 }
 
 .input__name-product {
   margin-bottom: 40px;
 }
 </style>
-
-<!-- !!!!!!! уточнить про этот router.push('/home'). пишет что если нужно заказ сохранить, а не просто перейти на другую страницу, то <RouterLink> не подходит. 
-  -->

@@ -146,7 +146,6 @@ function statusColor(status: string) {
 .list-orders__button {
   width: 110px;
   height: 40px;
-  border: none;
   border-radius: 7px;
   background-color: blue;
   color: white;

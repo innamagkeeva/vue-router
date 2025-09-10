@@ -2,11 +2,11 @@
 import router from '@/router'
 import { ref } from 'vue'
 
-const userName = ref<string>('')
+const login = ref<string>('')
 const password = ref<string>('')
 
-function login() {
-  if (userName.value && password.value) {
+function go() {
+  if (login.value && password.value) {
     router.push('/home')
   } else {
     console.log('Введите пароль')
@@ -20,14 +20,14 @@ function login() {
       <h1 class="title">Вход в админку</h1>
       <form
         class="form"
-        @submit.prevent="login"
+        @submit.prevent="go"
       >
         <p class="form__text">Логин</p>
         <input
           class="form__input"
           type="text"
           placeholder="Введите логин"
-          v-model="userName"
+          v-model="login"
         />
         <p class="form__text">Пароль</p>
         <input

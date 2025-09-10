@@ -5,22 +5,22 @@
     <h1 class="title">E-Shop Admin</h1>
 
     <RouterLink
-      to="/home"
+      :to="{ name: 'home' }"
       class="routerLink__style"
       >Главная</RouterLink
     >
     <RouterLink
-      to="/listOrders"
+      :to="{ name: 'listOrders' }"
       class="routerLink__style"
       >Заказы</RouterLink
     >
     <RouterLink
-      to="/CreateOrder"
+      :to="{ name: 'createOrder' }"
       class="routerLink__style"
       >Создать заказ</RouterLink
     >
     <RouterLink
-      to="/"
+      :to="{ name: 'home' }"
       class="routerLink__style"
       >Выход</RouterLink
     >
@@ -45,6 +45,5 @@
   line-height: 40px;
   text-align: center;
   margin-bottom: 20px;
-  cursor: pointer;
 }
 </style>

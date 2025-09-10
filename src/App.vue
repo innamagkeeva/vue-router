@@ -2,9 +2,10 @@
 
 <template>
   <header>
-    <RouterLink to="/">Авторизация</RouterLink> | <RouterLink to="/home">Главная</RouterLink>|
-    <RouterLink to="/listOrders">Заказы</RouterLink> |
-    <RouterLink to="/CreateOrder">Создать заказы</RouterLink>
+    <RouterLink :to="{ name: 'auth' }">Авторизация</RouterLink> |
+    <RouterLink :to="{ name: 'home' }">Главная</RouterLink>|
+    <RouterLink :to="{ name: 'listOrders' }">Заказы</RouterLink> |
+    <RouterLink :to="{ name: 'createOrder' }">Создать заказы</RouterLink>
   </header>
 
   <RouterView />
