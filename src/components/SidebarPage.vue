@@ -20,7 +20,7 @@
       >Создать заказ</RouterLink
     >
     <RouterLink
-      :to="{ name: 'home' }"
+      :to="{ name: 'auth' }"
       class="routerLink__style"
       >Выход</RouterLink
     >

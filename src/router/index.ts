@@ -8,14 +8,15 @@ import ListOrdersPage from "@/views/ListOrdersPage.vue";
 const routes = [
   {
     path: '/',
-    name: 'auth',
-    component: AuthPage
-  },
-  {
-    path: '/home',
     name: 'home',
     component: HomePage
   },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage
+  },
+  
   {
     path: '/createOrder',
     name: 'createOrder',

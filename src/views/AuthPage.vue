@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import router from '@/router'
 import { ref } from 'vue'
+import router from '@/router'
 
 const login = ref<string>('')
 const password = ref<string>('')
 
-function go() {
+function signIn() {
   if (login.value && password.value) {
-    router.push('/home')
+    router.push({ name: 'home' })
   } else {
     console.log('Введите пароль')
   }
@@ -20,7 +20,7 @@ function go() {
       <h1 class="title">Вход в админку</h1>
       <form
         class="form"
-        @submit.prevent="go"
+        @submit.prevent="signIn"
       >
         <p class="form__text">Логин</p>
         <input

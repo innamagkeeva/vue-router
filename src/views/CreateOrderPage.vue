@@ -17,7 +17,7 @@ const product = ref<string>('')
 
 function saveOrder() {
   if (userName.value && address.value && data.value && comment.value && product.value) {
-    router.push('/listOrders')
+    router.push({ name: 'listOrders' })
   } else {
     console.log('Введите все данные')
   }
@@ -108,7 +108,7 @@ function saveOrder() {
           </button>
           <RouterLink
             class="form__btn form__button-cancel"
-            :to="{ name: 'home' }"
+            :to="{ name: 'auth' }"
             >Отменить</RouterLink
           >
         </div>
