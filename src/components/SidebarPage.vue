@@ -3,27 +3,36 @@
 <template>
   <div class="wrapper">
     <h1 class="title">E-Shop Admin</h1>
-
-    <RouterLink
-      :to="{ name: 'home' }"
-      class="routerLink__style"
-      >Главная</RouterLink
-    >
-    <RouterLink
-      :to="{ name: 'listOrders' }"
-      class="routerLink__style"
-      >Заказы</RouterLink
-    >
-    <RouterLink
-      :to="{ name: 'createOrder' }"
-      class="routerLink__style"
-      >Создать заказ</RouterLink
-    >
-    <RouterLink
-      :to="{ name: 'auth' }"
-      class="routerLink__style"
-      >Выход</RouterLink
-    >
+    <ul>
+      <li>
+        <RouterLink
+          :to="{ name: 'home' }"
+          class="routerLink__style"
+          >Главная</RouterLink
+        >
+      </li>
+      <li>
+        <RouterLink
+          :to="{ name: 'listOrders' }"
+          class="routerLink__style"
+          >Заказы</RouterLink
+        >
+      </li>
+      <li>
+        <RouterLink
+          :to="{ name: 'createOrder' }"
+          class="routerLink__style"
+          >Создать заказ</RouterLink
+        >
+      </li>
+      <li>
+        <RouterLink
+          :to="{ name: 'auth' }"
+          class="routerLink__style"
+          >Выход</RouterLink
+        >
+      </li>
+    </ul>
   </div>
 </template>
 

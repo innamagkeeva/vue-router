@@ -6,10 +6,10 @@ const login = ref<string>('')
 const password = ref<string>('')
 
 function signIn() {
-  if (login.value && password.value) {
+  if (login.value.length > 5 && password.value.length > 8) {
     router.push({ name: 'home' })
   } else {
-    console.log('Введите пароль')
+    console.log('Введите пароль правильно')
   }
 }
 </script>
@@ -26,6 +26,7 @@ function signIn() {
         <input
           class="form__input"
           type="text"
+          required
           placeholder="Введите логин"
           v-model="login"
         />
@@ -33,6 +34,7 @@ function signIn() {
         <input
           class="form__input"
           type="password"
+          required
           placeholder="Введите пароль"
           v-model="password"
         />
