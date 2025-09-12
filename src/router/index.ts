@@ -1,33 +1,44 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import AuthPage from "@/views/AuthPage.vue";
-import CreateOrderPage from "@/views/CreateOrderPage.vue";
-import HomePage from "@/views/HomePage.vue";
-import ListOrdersPage from "@/views/ListOrdersPage.vue";
+
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomePage
-  },
-  {
-    path: '/auth',
-    name: 'auth',
-    component: AuthPage
-  },
   
+  { 
+    path: '/my',
+    name: 'my',
+    component: () => import ("@/views/MyPage.vue"),
+    redirect: {name: 'home'},
+    children: [
+      {
+    path: 'home',
+    name: 'home',
+    component: () => import ("@/views/HomePage.vue")
+  },
   {
-    path: '/createOrder',
+    path: 'auth',
+    name: 'auth',
+    component: () => import ("@/views/AuthPage.vue")
+  },
+  {
+    path: 'createOrder',
     name: 'createOrder',
-    component: CreateOrderPage
+    component: () => import ("@/views/CreateOrderPage.vue")
   },
   {
-    path: '/listOrders',
+    path: 'listOrders',
     name: 'listOrders',
-    component: ListOrdersPage
+    component: () => import ("@/views/ListOrdersPage.vue")
   },
-]
+  {
+    path:  '/:pathMatch(.*)*',
+    name: 'не найдено',
+    component: () => import ("@/views/NotFoundPage.vue")
+  },
+    ]
+  },
+ ]
+
 
 const router = createRouter({
   history: createWebHistory(),

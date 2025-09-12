@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Sidebar from '@/components/SidebarPage.vue'
-
 type OrderStatus = 'Новый' | 'В обработке' | 'Доставлен' | 'Отменён'
 
 interface Order {
@@ -58,62 +56,53 @@ function statusColor(status: string) {
 </script>
 
 <template>
-  <div class="main">
-    <div class="panel">
-      <Sidebar />
+  <div class="list-orders">
+    <div class="list-orders__header">
+      <p class="list-orders__title">Список заказов</p>
+      <RouterLink
+        class="list-orders__button"
+        :to="{ name: 'createOrder' }"
+        >Создать заказ</RouterLink
+      >
     </div>
-    <div class="list-orders">
-      <div class="list-orders__header">
-        <p class="list-orders__title">Список заказов</p>
-        <RouterLink
-          class="list-orders__button"
-          :to="{ name: 'createOrder' }"
-          >Создать заказ</RouterLink
+
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th class="thead__name">Имя заказчика</th>
+
+          <th class="thead__address">Адрес</th>
+          <th class="thead__data">Дата</th>
+          <th class="thead__status">Статус</th>
+          <th class="thead__comment">Комментарий</th>
+          <th class="thead__product">название товара</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          v-for="order in orders"
+          :key="order.id"
         >
-      </div>
-
-      <table class="order-table">
-        <thead>
-          <tr>
-            <th class="thead__name">Имя заказчика</th>
-
-            <th class="thead__address">Адрес</th>
-            <th class="thead__data">Дата</th>
-            <th class="thead__status">Статус</th>
-            <th class="thead__comment">Комментарий</th>
-            <th class="thead__product">название товара</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr
-            v-for="order in orders"
-            :key="order.id"
-          >
-            <td class="thead__name">
-              {{ order.customerName }}
-            </td>
-            <td class="thead__address">{{ order.address }}</td>
-            <td class="thead__data">{{ order.data }}</td>
-            <td class="thead__status">
-              <span :class="['status-label', statusColor(order.status)]">
-                {{ order.status }}
-              </span>
-            </td>
-            <td class="thead__comment">{{ order.comment }}</td>
-            <td class="thead__product">{{ order.productName }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          <td class="thead__name">
+            {{ order.customerName }}
+          </td>
+          <td class="thead__address">{{ order.address }}</td>
+          <td class="thead__data">{{ order.data }}</td>
+          <td class="thead__status">
+            <span :class="['status-label', statusColor(order.status)]">
+              {{ order.status }}
+            </span>
+          </td>
+          <td class="thead__comment">{{ order.comment }}</td>
+          <td class="thead__product">{{ order.productName }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <style scoped>
-.main {
-  display: flex;
-}
-
 .list-orders {
   flex: 1;
   padding: 30px 10px;

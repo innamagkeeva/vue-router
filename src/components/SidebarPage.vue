@@ -8,6 +8,7 @@
         <RouterLink
           :to="{ name: 'home' }"
           class="routerLink__style"
+          active-class="my-active-class"
           >Главная</RouterLink
         >
       </li>
@@ -15,6 +16,7 @@
         <RouterLink
           :to="{ name: 'listOrders' }"
           class="routerLink__style"
+          active-class="my-active-class"
           >Заказы</RouterLink
         >
       </li>
@@ -22,6 +24,7 @@
         <RouterLink
           :to="{ name: 'createOrder' }"
           class="routerLink__style"
+          active-class="my-active-class"
           >Создать заказ</RouterLink
         >
       </li>
@@ -29,6 +32,7 @@
         <RouterLink
           :to="{ name: 'auth' }"
           class="routerLink__style"
+          active-class="my-active-class"
           >Выход</RouterLink
         >
       </li>
@@ -54,5 +58,9 @@
   line-height: 40px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.my-active-class {
+  color: red;
 }
 </style>
