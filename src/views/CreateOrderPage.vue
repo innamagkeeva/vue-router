@@ -101,7 +101,7 @@ function saveOrder() {
         </button>
         <RouterLink
           class="form__btn form__button-cancel"
-          :to="{ name: 'auth' }"
+          :to="{ name: 'home' }"
           >Отменить</RouterLink
         >
       </div>
