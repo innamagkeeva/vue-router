@@ -23,8 +23,8 @@ function saveOrder() {
 </script>
 
 <template>
-  <div class="create-order">
-    <h1 class="create-order__title">Создать заказ</h1>
+  <div class="wrapper">
+    <h1 class="title">Создать заказ</h1>
     <form
       class="form"
       @submit.prevent="saveOrder"
@@ -110,12 +110,15 @@ function saveOrder() {
 </template>
 
 <style scoped>
-.create-order {
-  width: 100%;
+.wrapper {
+  width: 700px;
+  margin: 0 auto;
   padding: 30px;
 }
 
-.create-order__title {
+.title {
+  width: 200px;
+  margin: 0 auto;
   margin-bottom: 20px;
 }
 

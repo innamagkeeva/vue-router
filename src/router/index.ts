@@ -22,6 +22,11 @@ const routes = [
         name: 'listOrders',
         component: () => import('@/views/ListOrdersPage.vue'),
       },
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('@/views/UsersPage.vue'),
+      },
     ],
   },
 

@@ -12,6 +12,7 @@
           >Главная</RouterLink
         >
       </li>
+
       <li>
         <RouterLink
           :to="{ name: 'listOrders' }"
@@ -20,6 +21,7 @@
           >Заказы</RouterLink
         >
       </li>
+
       <li>
         <RouterLink
           :to="{ name: 'createOrder' }"
@@ -28,6 +30,16 @@
           >Создать заказ</RouterLink
         >
       </li>
+
+      <li>
+        <RouterLink
+          :to="{ name: 'user' }"
+          class="routerLink__style"
+          active-class="my-active-class"
+          >Пользователи</RouterLink
+        >
+      </li>
+
       <li>
         <RouterLink
           :to="{ name: 'auth' }"

@@ -19,6 +19,7 @@ import SidebarPage from '@/components/SidebarPage.vue'
 }
 
 .flex__router {
-  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
 }
 </style>
