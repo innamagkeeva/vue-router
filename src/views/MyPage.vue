@@ -16,10 +16,11 @@ import SidebarPage from '@/components/SidebarPage.vue'
 <style scoped>
 .flex {
   display: flex;
+  min-height: 100vh;
 }
 
 .flex__router {
-  width: 100%;
-  height: 100vh;
+  flex: 1;
+  padding: 30px 10px;
 }
 </style>

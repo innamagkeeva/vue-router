@@ -113,7 +113,6 @@ function saveOrder() {
 .wrapper {
   width: 700px;
   margin: 0 auto;
-  padding: 30px;
 }
 
 .title {

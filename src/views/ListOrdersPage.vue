@@ -105,7 +105,7 @@ function statusColor(status: string) {
 <style scoped>
 .list-orders {
   flex: 1;
-  padding: 30px 10px;
+  padding: 0px 10px;
 }
 
 .list-orders__header {
@@ -113,7 +113,7 @@ function statusColor(status: string) {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 40px;
   padding: 10px;
   margin-bottom: 30px;
 }
@@ -134,7 +134,6 @@ function statusColor(status: string) {
 
 .order-table {
   width: 100%;
-  height: 40px;
   border-collapse: collapse;
 }
 
