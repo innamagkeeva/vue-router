@@ -42,6 +42,15 @@
 
       <li>
         <RouterLink
+          :to="{ name: 'dogs' }"
+          class="routerLink__style"
+          active-class="my-active-class"
+          >Собачки</RouterLink
+        >
+      </li>
+
+      <li>
+        <RouterLink
           :to="{ name: 'auth' }"
           class="routerLink__style"
           active-class="my-active-class"

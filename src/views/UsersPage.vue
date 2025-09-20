@@ -44,71 +44,64 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wrapper">
-    <h1 class="title">Пользователи</h1>
-    <table class="user__table">
-      <thead>
-        <tr>
-          <th class="user__name">Название</th>
-          <th class="user__user-name">Имя</th>
-          <th class="user__email">Эл.адрес</th>
-          <th class="user__address">Адрес</th>
+  <h1 class="title">Пользователи</h1>
+  <table class="user__table">
+    <thead>
+      <tr>
+        <th class="user__name">Название</th>
+        <th class="user__user-name">Имя</th>
+        <th class="user__email">Эл.адрес</th>
+        <th class="user__address">Адрес</th>
 
-          <th class="user__phone">Телефон</th>
-          <th class="user__website">Страница</th>
-          <th class="user__company">Место работы</th>
-        </tr>
-      </thead>
+        <th class="user__phone">Телефон</th>
+        <th class="user__website">Страница</th>
+        <th class="user__company">Место работы</th>
+      </tr>
+    </thead>
 
-      <tbody v-if="users">
-        <tr
-          v-for="user in users"
-          :key="user.id"
+    <tbody v-if="users">
+      <tr
+        v-for="user in users"
+        :key="user.id"
+      >
+        <td class="user__name">{{ user.name }}</td>
+        <td class="user__user-name">{{ user.username }}</td>
+        <td class="user__email">{{ user.email }}</td>
+        <td class="user__address">
+          {{ user.address.street }}, {{ user.address.suite }}, {{ user.address.city }},
+          {{ user.address.zipcode }}
+          <br />
+          <small> {{ user.address.geo.lat }}, {{ user.address.geo.lng }} </small>
+        </td>
+
+        <td class="user__phone">{{ user.phone }}</td>
+        <td class="user__website">{{ user.website }}</td>
+        <td class="user__company">
+          {{ user.company.name }}, {{ user.company.catchPhrase }}, {{ user.company.bs }}
+        </td>
+      </tr>
+    </tbody>
+
+    <tbody v-else>
+      <tr>
+        <td
+          colspan="7"
+          class="spinner__wrapper"
         >
-          <td class="user__name">{{ user.name }}</td>
-          <td class="user__user-name">{{ user.username }}</td>
-          <td class="user__email">{{ user.email }}</td>
-          <td class="user__address">
-            {{ user.address.street }}, {{ user.address.suite }}, {{ user.address.city }},
-            {{ user.address.zipcode }}
-            <br />
-            <small> {{ user.address.geo.lat }}, {{ user.address.geo.lng }} </small>
-          </td>
-
-          <td class="user__phone">{{ user.phone }}</td>
-          <td class="user__website">{{ user.website }}</td>
-          <td class="user__company">
-            {{ user.company.name }}, {{ user.company.catchPhrase }}, {{ user.company.bs }}
-          </td>
-        </tr>
-      </tbody>
-
-      <tbody v-else>
-        <tr>
-          <td
-            colspan="7"
-            class="spinner__wrapper"
-          >
-            <div class="spinner"></div>
-            <p>Загрузка...</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          <div class="spinner"></div>
+          <p>Загрузка...</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <!-- colspan="7" у спинера — количество столбцов в таблице (у меня их 7). -->
 
 <style scoped>
-.wrapper {
-  margin-bottom: 30px;
-}
-
 .title {
-  width: 223px;
-  height: 45px;
-  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .user__list {
