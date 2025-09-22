@@ -64,7 +64,7 @@
 <style scoped>
 .wrapper {
   width: 230px;
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 30px;
   padding-left: 10px;
   border-right: 1px solid grey;
