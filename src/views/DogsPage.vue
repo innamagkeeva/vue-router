@@ -26,7 +26,7 @@ function scrollToTop() {
   })
 }
 
-const showButton = ref(false)
+const showButton = ref<boolean>(false)
 
 // Следим за скроллом и показываем кнопку, если нужно
 function handleScroll() {
