@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { api } from '@/api'
 
 const route = useRoute()
 
@@ -33,7 +33,7 @@ const user = ref<User | null>(null)
 
 async function getUser() {
   try {
-    const response = await axios(`https://jsonplaceholder.typicode.com/users/${route.params.id}`)
+    const response = await api(`users/${route.params.id}`)
     user.value = response.data
   } catch (error) {
     console.log(error)
@@ -42,7 +42,6 @@ async function getUser() {
 
 onMounted(() => {
   getUser()
-  console.log(route.params.id)
 })
 </script>
 
@@ -63,9 +62,9 @@ onMounted(() => {
 
 .back-button {
   display: block;
+  width: 55px;
   margin-bottom: 30px;
   padding: 6px;
-  width: 55px;
   border: none;
   border-radius: 7px;
   background-color: blueviolet;

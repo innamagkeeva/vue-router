@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { api } from '@/api'
 
 const router = useRouter()
 
@@ -32,9 +32,8 @@ interface Users {
 const users = ref<Users[] | null>(null)
 
 async function getUsers() {
-  const url = 'https://jsonplaceholder.typicode.com/users'
   try {
-    const response = await axios(url)
+    const response = await api('users')
     users.value = response.data
   } catch (error) {
     console.log(error)
