@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 interface Users {
   id: number
@@ -26,15 +30,14 @@ interface Users {
 }
 
 const users = ref<Users[] | null>(null)
+
 async function getUsers() {
   const url = 'https://jsonplaceholder.typicode.com/users'
-  const response = await fetch(url)
-
-  if (response.ok) {
-    const json = await response.json()
-    users.value = json
-  } else {
-    alert('Ошибка HTTP: ' + response.status)
+  try {
+    const response = await axios(url)
+    users.value = response.data
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -63,6 +66,7 @@ onMounted(() => {
       <tr
         v-for="user in users"
         :key="user.id"
+        @click="router.push({ name: 'OneUser', params: { id: String(user.id) } })"
       >
         <td class="user__name">{{ user.name }}</td>
         <td class="user__user-name">{{ user.username }}</td>

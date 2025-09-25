@@ -155,6 +155,7 @@ function saveOrder() {
 .form__button {
   width: 350px;
   height: 40px;
+
   display: flex;
 }
 

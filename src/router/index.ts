@@ -28,6 +28,11 @@ const routes = [
         component: () => import('@/views/UsersPage.vue'),
       },
       {
+        path: '/user/:id',
+        name: 'OneUser',
+        component: () => import('@/views/OneUser.vue'),
+      },
+      {
         path: '/dogs',
         name: 'dogs',
         component: () => import('@/views/DogsPage.vue'),
