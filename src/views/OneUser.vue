@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/api'
 
 const route = useRoute()
+const router = useRouter()
 
 interface User {
   id: number
@@ -36,7 +37,13 @@ async function getUser() {
     const response = await api(`users/${route.params.id}`)
     user.value = response.data
   } catch (error) {
-    console.log(error)
+    const err = error as { response?: { status: number } }
+
+    if (err.response?.status === 404) {
+      router.push({ name: 'notFound' })
+    } else {
+      console.error('Ошибка при загрузке пользователя:', error)
+    }
   }
 }
 
