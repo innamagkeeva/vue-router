@@ -33,7 +33,7 @@ const users = ref<Users[] | null>(null)
 
 async function getUsers() {
   try {
-    const response = await api('users')
+    const response = await api(`users`)
     users.value = response.data
   } catch (error) {
     console.log(error)
