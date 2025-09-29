@@ -1,39 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { api } from '@/api'
+import { usersApi, type Users } from '@/api/users'
 
 const router = useRouter()
-
-interface Users {
-  id: number
-  name: string
-  username: string
-  email: string
-  address: {
-    street: string
-    suite: string
-    city: string
-    zipcode: string
-    geo: {
-      lat: string
-      lng: string
-    }
-  }
-  phone: string
-  website: string
-  company: {
-    name: string
-    catchPhrase: string
-    bs: string
-  }
-}
 
 const users = ref<Users[] | null>(null)
 
 async function getUsers() {
   try {
-    const response = await api(`users`)
+    const response = await usersApi.get()
     users.value = response.data
   } catch (error) {
     console.log(error)
