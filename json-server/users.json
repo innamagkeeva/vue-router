@@ -1,0 +1,18 @@
+[
+  {
+    "login": "qwerty",
+    "firstName": "Qwerty",
+    "secondName": "Qwerty",
+    "hash": "65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5",
+    "token": 1735586708233,
+    "role": "ADMIN"
+  },
+  {
+    "login": "ivanovii",
+    "firstName": "Ivan",
+    "secondName": "Ivanov",
+    "hash": "0b49bd1dbb00c855d244d9e851deba3a013229e76f6158068ba62e0e94f263f1",
+    "token": 1735987203322,
+    "role": "USER"
+  }
+]
