@@ -41,7 +41,7 @@ onMounted(() => {
       <tr
         v-for="user in users"
         :key="user.id"
-        @click="router.push({ name: 'OneUser', params: { id: String(user.id) } })"
+        @click="router.push({ name: 'oneUser', params: { id: String(user.id) } })"
       >
         <td class="user__name">{{ user.name }}</td>
         <td class="user__user-name">{{ user.username }}</td>

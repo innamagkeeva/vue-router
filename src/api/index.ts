@@ -3,4 +3,8 @@ const api = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com',
 })
 
-export { api }
+const apiOrders = axios.create({
+  baseURL: 'http://localhost:8000/',
+})
+
+export { api, apiOrders }

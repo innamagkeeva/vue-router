@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { ordersApi } from '@/api/orders'
+
+async function getOrders() {
+  try {
+    const response = await ordersApi.getAll()
+    console.log(response.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(() => {
+  getOrders()
+})
+
 type OrderStatus = 'Новый' | 'В обработке' | 'Доставлен' | 'Отменён'
 
 interface Order {

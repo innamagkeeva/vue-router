@@ -20,7 +20,7 @@ const routes = [
       {
         path: 'listOrders',
         name: 'listOrders',
-        component: () => import('@/views/ListOrdersPage.vue'),
+        component: () => import('@/views/OrdersPage.vue'),
       },
       {
         path: '/user',
@@ -29,7 +29,7 @@ const routes = [
       },
       {
         path: '/user/:id',
-        name: 'OneUser',
+        name: 'oneUser',
         component: () => import('@/views/OneUser.vue'),
       },
       {
