@@ -6,10 +6,10 @@ const login = ref<string>('')
 const password = ref<string>('')
 
 function signIn() {
-  if (login.value.length > 5 && password.value.length > 8) {
+  if (login.value.length > 5 && password.value.length > 5) {
     router.push({ name: 'home' })
   } else {
-    console.log('Введите пароль правильно')
+    console.log('Введите пароль правильно. Символов должно быть больше 5.')
   }
 }
 </script>

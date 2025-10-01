@@ -6,12 +6,14 @@ export const ordersApi = {
   create() {},
 }
 
-interface Order {
+type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменён'
+
+export interface Order {
   address: string
   comment: string
   date: number
   id: string
   orderName: string
-  status: string
+  status: OrderStatus
   userName: string
 }

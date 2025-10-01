@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { ordersApi } from '@/api/orders'
+import { onMounted, ref } from 'vue'
+import { ordersApi, type Order } from '@/api/orders'
+
+const orders = ref<Order[] | null>(null)
 
 async function getOrders() {
   try {
     const response = await ordersApi.getAll()
+    orders.value = response.data
     console.log(response.data)
   } catch (error) {
     console.log(error)
@@ -15,56 +18,17 @@ onMounted(() => {
   getOrders()
 })
 
-type OrderStatus = 'Новый' | 'В обработке' | 'Доставлен' | 'Отменён'
-
-interface Order {
-  id: number
-  customerName: string
-  address: string
-  data: string
-  status: OrderStatus
-  comment: string
-  productName: string
-}
-
-const orders: Order[] = [
-  {
-    id: 1,
-    customerName: 'Иван Петров',
-    address: 'Москва, Тверская 10',
-    data: '2025-08-20',
-    status: 'В обработке',
-    comment: 'Позвонить перед доставкой',
-    productName: 'Кроссовки X',
-  },
-  {
-    id: 2,
-    customerName: 'Анна Смирнова',
-    address: 'СПБ, Невский 25',
-    data: '2025-08-21',
-    status: 'Доставлен',
-    comment: 'Оставить у консьержа',
-    productName: 'Рюкзак Urban',
-  },
-  {
-    id: 3,
-    customerName: 'Павел Орлов',
-    address: 'Екатеринбург, Ленина 5',
-    data: '2025-08-22',
-    status: 'Отменён',
-    comment: 'Клиент передумал',
-    productName: 'Фитнес-бутылка',
-  },
-]
-
 function statusColor(status: string) {
   switch (status) {
-    case 'Доставлен':
+    case 'Новый':
       return 'green'
-    case 'В обработке':
+    case 'В процессе':
       return 'orange'
-    case 'Отменён':
+    case 'Выполнен':
+      return 'blueviolet'
+    case 'Отменен':
       return 'red'
+
     default:
       return ''
   }
@@ -95,23 +59,33 @@ function statusColor(status: string) {
         </tr>
       </thead>
 
-      <tbody>
+      <tbody v-if="orders">
         <tr
           v-for="order in orders"
           :key="order.id"
         >
-          <td class="thead__name">
-            {{ order.customerName }}
-          </td>
+          <td class="thead__name">{{ order.userName }}</td>
           <td class="thead__address">{{ order.address }}</td>
-          <td class="thead__data">{{ order.data }}</td>
+          <td class="thead__data">{{ order.date }}</td>
           <td class="thead__status">
             <span :class="['status-label', statusColor(order.status)]">
               {{ order.status }}
             </span>
           </td>
           <td class="thead__comment">{{ order.comment }}</td>
-          <td class="thead__product">{{ order.productName }}</td>
+          <td class="thead__product">{{ order.orderName }}</td>
+        </tr>
+      </tbody>
+
+      <tbody v-else>
+        <tr>
+          <td
+            colspan="7"
+            class="spinner__wrapper"
+          >
+            <div class="spinner"></div>
+            <p>Загрузка...</p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -191,8 +165,33 @@ function statusColor(status: string) {
   background-color: orange;
 }
 
+.status-label.blueviolet {
+  background-color: blueviolet;
+}
+
 .status-label.red {
   background-color: red;
+}
+
+.spinner__wrapper {
+  text-align: center;
+  padding: 30px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid gray;
+  border-top-color: blue;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
 
