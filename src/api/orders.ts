@@ -3,10 +3,15 @@ export const ordersApi = {
   getAll() {
     return apiOrders<Order[]>('orders')
   },
-  create() {},
+  create(order: Order) {
+    return apiOrders.post('orders', order)
+  },
+  delete(id: string) {
+    return apiOrders.delete(`orders/${id}`)
+  },
 }
 
-type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменён'
+export type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменён'
 
 export interface Order {
   address: string

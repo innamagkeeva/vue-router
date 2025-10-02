@@ -1,24 +1,37 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
+import { ordersApi } from '@/api/orders'
 
-const router = useRouter()
+async function createOrder() {
+  try {
+    const response = await ordersApi.create({
+      address: '12345678',
+      comment: '',
+      date: 121212,
+      id: '10000',
+      orderName: 'пенал',
+      status: 'Новый',
+      userName: 'Vlad',
+    })
+    console.log(response.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 type Status = 'В обработке' | 'Доставлен' | 'Отменен'
 
 const userName = ref<string>('')
 const address = ref<string>('')
 const data = ref<string>('')
-const status = ref<Status>('В обработке')
+// const status = ref<Status>('В обработке')
 const comment = ref<string>('')
 const product = ref<string>('')
+const orderStatus = ref<string>('Новый')
 
 function saveOrder() {
-  if (userName.value && address.value && data.value && comment.value && product.value) {
-    router.push({ name: 'listOrders' })
-  } else {
-    console.log('Введите все данные')
-  }
+  createOrder()
 }
 </script>
 
@@ -64,7 +77,23 @@ function saveOrder() {
           />
         </div>
 
-        <div class="form__user-data">
+        <div>
+          <div>Выбран статус: {{ orderStatus }}</div>
+
+          <select v-model="orderStatus">
+            <option
+              disabled
+              value=""
+            >
+              Выберите один из вариантов
+            </option>
+            <option>Новый</option>
+            <option>В процессе</option>
+            <option>Завершен</option>
+            <option>Отменен</option>
+          </select>
+        </div>
+        <!-- <div class="form__user-data">
           <p class="form__title">Статус</p>
           <input
             class="input__name"
@@ -73,7 +102,7 @@ function saveOrder() {
             placeholder="Новый"
             v-model="status"
           />
-        </div>
+        </div> -->
       </div>
 
       <p class="form__title">Комментарий</p>
@@ -180,4 +209,17 @@ function saveOrder() {
 .input__name-product {
   margin-bottom: 40px;
 }
+
+.order__status {
+  width: 200px;
+}
 </style>
+
+<!-- // const router = useRouter()
+
+//   if (userName.value && address.value && data.value && comment.value && product.value) {
+//     router.push({ name: 'listOrders' })
+//   } else {
+//     console.log('Введите все данные')
+//   }
+//  -->

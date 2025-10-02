@@ -33,6 +33,18 @@ function statusColor(status: string) {
       return ''
   }
 }
+
+async function deleteOrder(id: string) {
+  try {
+    await ordersApi.delete(id)
+    const index = orders.value?.findIndex((order) => order.id === id)
+    if (index && index !== -1) {
+      orders.value?.splice(index, 1)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
@@ -55,7 +67,8 @@ function statusColor(status: string) {
           <th class="thead__data">Дата</th>
           <th class="thead__status">Статус</th>
           <th class="thead__comment">Комментарий</th>
-          <th class="thead__product">название товара</th>
+          <th class="thead__product">Название товара</th>
+          <th class="thead__delete">Удалить заказ</th>
         </tr>
       </thead>
 
@@ -74,6 +87,14 @@ function statusColor(status: string) {
           </td>
           <td class="thead__comment">{{ order.comment }}</td>
           <td class="thead__product">{{ order.orderName }}</td>
+          <td class="thead__delete">
+            <button
+              class="thead__delete-btn"
+              @click="deleteOrder(order.id)"
+            >
+              +
+            </button>
+          </td>
         </tr>
       </tbody>
 
@@ -147,6 +168,16 @@ function statusColor(status: string) {
 }
 .thead__comment {
   width: 250px;
+}
+
+.thead__product {
+  width: 210px;
+}
+
+.thead__delete-btn {
+  width: 20px;
+  height: 20px;
+  rotate: 45deg;
 }
 
 .status-label {
