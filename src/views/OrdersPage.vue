@@ -39,7 +39,7 @@ async function deleteOrder(id: string) {
     await ordersApi.delete(id)
     const index = orders.value?.findIndex((order) => order.id === id)
     if (index && index !== -1) {
-      orders.value?.splice(index, 1)
+      orders.value!.splice(index, 1)
     }
   } catch (error) {
     console.log(error)

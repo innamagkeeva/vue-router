@@ -16,7 +16,7 @@ export type OrderStatus = 'Новый' | 'В процессе' | 'Выполне
 export interface Order {
   address: string
   comment: string
-  date: number
+  orderDate: number
   id: string
   orderName: string
   status: OrderStatus

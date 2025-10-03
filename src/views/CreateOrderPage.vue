@@ -1,34 +1,39 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// import { useRouter } from 'vue-router'
-import { ordersApi } from '@/api/orders'
+import { ordersApi, type OrderStatus } from '@/api/orders'
+
+function resetForm() {
+  address.value = ''
+  comment.value = ''
+  orderDate.value = ''
+  product.value = ''
+  userName.value = ''
+}
 
 async function createOrder() {
   try {
     const response = await ordersApi.create({
-      address: '12345678',
-      comment: '',
-      date: 121212,
-      id: '10000',
-      orderName: 'пенал',
-      status: 'Новый',
-      userName: 'Vlad',
+      address: address.value,
+      comment: comment.value,
+      orderDate: Date.now(),
+      id: Date.now().toString(),
+      orderName: product.value,
+      status: orderStatus.value,
+      userName: userName.value,
     })
-    console.log(response.data)
+    console.log('Заказ успешно сохранен', response.data)
+    resetForm()
   } catch (error) {
     console.log(error)
   }
 }
 
-type Status = 'В обработке' | 'Доставлен' | 'Отменен'
-
 const userName = ref<string>('')
 const address = ref<string>('')
-const data = ref<string>('')
-// const status = ref<Status>('В обработке')
+const orderDate = ref<string>('')
 const comment = ref<string>('')
 const product = ref<string>('')
-const orderStatus = ref<string>('Новый')
+const orderStatus = ref<OrderStatus>('Новый')
 
 function saveOrder() {
   createOrder()
@@ -71,16 +76,21 @@ function saveOrder() {
           <p class="form__title">Дата</p>
           <input
             class="input__name"
-            type="data"
+            type="date"
             placeholder="введите дату"
-            v-model="data"
+            v-model="orderDate"
           />
         </div>
 
         <div>
-          <div>Выбран статус: {{ orderStatus }}</div>
+          <div class="status__select">
+            Выбран статус: <strong>{{ orderStatus || 'Не выбран' }}</strong>
+          </div>
 
-          <select v-model="orderStatus">
+          <select
+            class="select__model"
+            v-model="orderStatus"
+          >
             <option
               disabled
               value=""
@@ -93,16 +103,6 @@ function saveOrder() {
             <option>Отменен</option>
           </select>
         </div>
-        <!-- <div class="form__user-data">
-          <p class="form__title">Статус</p>
-          <input
-            class="input__name"
-            type="text"
-            name="status"
-            placeholder="Новый"
-            v-model="status"
-          />
-        </div> -->
       </div>
 
       <p class="form__title">Комментарий</p>
@@ -172,7 +172,6 @@ function saveOrder() {
 }
 
 .input__name {
-  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -210,8 +209,15 @@ function saveOrder() {
   margin-bottom: 40px;
 }
 
-.order__status {
-  width: 200px;
+.status__select {
+  margin-bottom: 20px;
+}
+
+.select__model {
+  width: 220px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 7px;
 }
 </style>
 
@@ -223,3 +229,13 @@ function saveOrder() {
 //     console.log('Введите все данные')
 //   }
 //  -->
+<!-- <div class="form__user-data">
+          <p class="form__title">Статус</p>
+          <input
+            class="input__name"
+            type="text"
+            name="status"
+            placeholder="Новый"
+            v-model="status"
+          />
+        </div> -->
