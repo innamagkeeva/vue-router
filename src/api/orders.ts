@@ -9,6 +9,9 @@ export const ordersApi = {
   delete(id: string) {
     return apiOrders.delete(`orders/${id}`)
   },
+  getOrder(id: string) {
+    return apiOrders.get<Order>(`orders/${id}`)
+  },
 }
 
 export type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменён'
@@ -16,7 +19,7 @@ export type OrderStatus = 'Новый' | 'В процессе' | 'Выполне
 export interface Order {
   address: string
   comment: string
-  orderDate: number
+  date: number
   id: string
   orderName: string
   status: OrderStatus

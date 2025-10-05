@@ -15,7 +15,7 @@ async function createOrder() {
     const response = await ordersApi.create({
       address: address.value,
       comment: comment.value,
-      orderDate: Date.now(),
+      date: Date.now(),
       id: Date.now().toString(),
       orderName: product.value,
       status: orderStatus.value,

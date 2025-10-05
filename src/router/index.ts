@@ -23,17 +23,22 @@ const routes = [
         component: () => import('@/views/OrdersPage.vue'),
       },
       {
-        path: '/user',
+        path: 'listOrders/:id',
+        name: 'oneOrder',
+        component: () => import('@/views/OneOrder.vue'),
+      },
+      {
+        path: 'user',
         name: 'user',
         component: () => import('@/views/UsersPage.vue'),
       },
       {
-        path: '/user/:id',
+        path: 'user/:id',
         name: 'oneUser',
         component: () => import('@/views/OneUser.vue'),
       },
       {
-        path: '/dogs',
+        path: 'dogs',
         name: 'dogs',
         component: () => import('@/views/DogsPage.vue'),
       },
