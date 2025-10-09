@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { ordersApi, type Order } from '@/api/orders'
 import { useRouter } from 'vue-router'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 
 const router = useRouter()
 const orders = ref<Order[] | null>(null)
@@ -40,12 +41,32 @@ async function deleteOrder(id: string) {
   try {
     await ordersApi.delete(id)
     const index = orders.value?.findIndex((order) => order.id === id)
-    if (index && index !== -1) {
+    if (index !== undefined && index !== -1) {
       orders.value!.splice(index, 1)
     }
   } catch (error) {
     console.log(error)
   }
+}
+const selectedOrderId = ref<string | null>(null)
+
+const isOpenConfirm = ref(false)
+
+function openConfirmDialog(id: string) {
+  selectedOrderId.value = id
+  isOpenConfirm.value = true
+}
+
+function closeConfirmDialog() {
+  isOpenConfirm.value = false
+}
+
+async function handleDelete() {
+  if (selectedOrderId.value) {
+    await deleteOrder(selectedOrderId.value)
+  }
+  isOpenConfirm.value = false
+  selectedOrderId.value = null
 }
 </script>
 
@@ -78,10 +99,13 @@ async function deleteOrder(id: string) {
         <tr
           v-for="order in orders"
           :key="order.id"
-          @click="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
+          @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
         >
+          <td class="thead__name">{{ order.userName }}</td>
           <td class="thead__address">{{ order.address }}</td>
-          <td class="thead__data">{{ order.date }}</td>
+          <td class="thead__data">
+            {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
+          </td>
           <td class="thead__status">
             <span :class="['status-label', statusColor(order.status)]">
               {{ order.status }}
@@ -92,10 +116,12 @@ async function deleteOrder(id: string) {
           <td class="thead__delete">
             <button
               class="thead__delete-btn"
-              @click="deleteOrder(order.id)"
+              @click.stop="openConfirmDialog(order.id)"
             >
               +
             </button>
+            <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
+            <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
           </td>
         </tr>
       </tbody>
@@ -112,6 +138,12 @@ async function deleteOrder(id: string) {
         </tr>
       </tbody>
     </table>
+    <ConfirmDialog
+      :is-open="isOpenConfirm"
+      @cancel="closeConfirmDialog"
+      @ok="handleDelete"
+    />
+    <!-- Нажимаешь "ok" — вызывается deleteOrder(id) -->
   </div>
 </template>
 

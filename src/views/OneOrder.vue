@@ -30,11 +30,13 @@ onMounted(() => {
     class="order__card"
   >
     <h2 class="order__title">Заказчик: {{ order.userName }}</h2>
-    <p><strong>Товар:</strong> {{ order.orderName }}</p>
-    <p><strong>Адрес:</strong> {{ order.address }}</p>
-    <p><strong>Комментарий:</strong> {{ order.comment }}</p>
-    <p><strong>Статус:</strong> {{ order.status }}</p>
-    <p><strong>Дата:</strong> {{ new Date(order.date).toLocaleDateString() }}</p>
+    <p class="oder__element"><strong>Товар:</strong> {{ order.orderName }}</p>
+    <p class="oder__element"><strong>Адрес:</strong> {{ order.address }}</p>
+    <p class="oder__element"><strong>Комментарий:</strong> {{ order.comment }}</p>
+    <p class="oder__element"><strong>Статус:</strong> {{ order.status }}</p>
+    <p class="oder__element">
+      <strong>Дата:</strong> {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
+    </p>
   </div>
 
   <div v-else>
@@ -57,5 +59,13 @@ onMounted(() => {
   border-radius: 10px;
   margin: 0 auto;
   margin-bottom: 20px;
+}
+
+.order__title {
+  margin-bottom: 30px;
+}
+
+.oder__element {
+  margin-bottom: 25px;
 }
 </style>
