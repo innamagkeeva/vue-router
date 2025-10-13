@@ -1,12 +1,17 @@
 <script setup lang="ts">
-defineProps<{
-  isOpen: boolean
-}>()
+// defineProps<{
+//   isOpen: boolean
+// }>()
+
+const isOpen = defineModel<boolean>({ required: true })
 
 const emit = defineEmits<{
-  cancel: []
   ok: []
 }>()
+
+function closeDialog() {
+  isOpen.value = false
+}
 </script>
 <template>
   <div
@@ -17,7 +22,7 @@ const emit = defineEmits<{
     <div class="confirm__actions">
       <button
         class="confirm__button"
-        @click="emit('cancel')"
+        @click="closeDialog"
       >
         cancel
       </button>

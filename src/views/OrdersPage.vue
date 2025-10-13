@@ -57,10 +57,6 @@ function openConfirmDialog(id: string) {
   isOpenConfirm.value = true
 }
 
-function closeConfirmDialog() {
-  isOpenConfirm.value = false
-}
-
 async function handleDelete() {
   if (selectedOrderId.value) {
     await deleteOrder(selectedOrderId.value)
@@ -139,8 +135,7 @@ async function handleDelete() {
       </tbody>
     </table>
     <ConfirmDialog
-      :is-open="isOpenConfirm"
-      @cancel="closeConfirmDialog"
+      v-model="isOpenConfirm"
       @ok="handleDelete"
     />
     <!-- Нажимаешь "ok" — вызывается deleteOrder(id) -->
