@@ -1,7 +1,5 @@
 <script setup lang="ts">
-// defineProps<{
-//   isOpen: boolean
-// }>()
+import { onMounted, onUnmounted } from 'vue'
 
 const isOpen = defineModel<boolean>({ required: true })
 
@@ -12,6 +10,24 @@ const emit = defineEmits<{
 function closeDialog() {
   isOpen.value = false
 }
+
+function handleKeydown(event: KeyboardEvent) {
+  // KeyboardEvent - типизировали как событие клавиатуры
+  if (event.key === 'Escape') {
+    closeDialog()
+    // проверка: если событие клавиатуры => нажали на клавишу Esc, то вызывается функция закрытия окна
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+// Вешаем слушатель события 'keydown' (нажатие кнопки) на документ, и название функции, которая ожидает срабатывания этого события при монтировании компонента.
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
+// удаляем слушатель события при размонтировании, что важно для производительности и предотвращения багов.
 </script>
 <template>
   <div
