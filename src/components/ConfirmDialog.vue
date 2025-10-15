@@ -30,26 +30,29 @@ onUnmounted(() => {
 // удаляем слушатель события при размонтировании, что важно для производительности и предотвращения багов.
 </script>
 <template>
-  <div
-    class="confirm"
-    v-if="isOpen"
-  >
-    <h2 class="confirm__title">Вы точно хотите удалить заказ?</h2>
-    <div class="confirm__actions">
-      <button
-        class="confirm__button"
-        @click="closeDialog"
-      >
-        cancel
-      </button>
-      <button
-        class="confirm__button"
-        @click="emit('ok')"
-      >
-        ok
-      </button>
+  <Transition name="bounce">
+    <div
+      class="confirm"
+      v-if="isOpen"
+      style="margin-top: 20px; text-align: center"
+    >
+      <h2 class="confirm__title">Вы точно хотите удалить заказ?</h2>
+      <div class="confirm__actions">
+        <button
+          class="confirm__button"
+          @click="closeDialog"
+        >
+          cancel
+        </button>
+        <button
+          class="confirm__button"
+          @click="emit('ok')"
+        >
+          ok
+        </button>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -86,5 +89,23 @@ onUnmounted(() => {
 .confirm__button:hover {
   background-color: white;
   color: black;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
