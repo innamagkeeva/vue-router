@@ -55,6 +55,11 @@ const routes = [
     name: 'notFound',
     component: () => import('@/views/NotFoundPage.vue'),
   },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/RegistrationPage.vue'),
+  },
 ]
 
 const router = createRouter({

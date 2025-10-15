@@ -12,6 +12,14 @@
           >Главная</RouterLink
         >
       </li>
+      <li>
+        <RouterLink
+          :to="{ name: 'register' }"
+          class="routerLink__style"
+          active-class="my-active-class"
+          >Регистрация</RouterLink
+        >
+      </li>
 
       <li>
         <RouterLink
