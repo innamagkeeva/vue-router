@@ -65,7 +65,7 @@ function signIn() {
           class="form__button"
           type="submit"
         >
-          Зарегестрироваться
+          Зарегистрироваться
         </button>
       </form>
     </div>
