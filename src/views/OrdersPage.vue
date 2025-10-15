@@ -92,34 +92,39 @@ async function handleDelete() {
       </thead>
 
       <tbody v-if="orders">
-        <tr
-          v-for="order in orders"
-          :key="order.id"
-          @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
+        <TransitionGroup
+          name="list"
+          teg="ul"
         >
-          <td class="thead__name">{{ order.userName }}</td>
-          <td class="thead__address">{{ order.address }}</td>
-          <td class="thead__data">
-            {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
-          </td>
-          <td class="thead__status">
-            <span :class="['status-label', statusColor(order.status)]">
-              {{ order.status }}
-            </span>
-          </td>
-          <td class="thead__comment">{{ order.comment }}</td>
-          <td class="thead__product">{{ order.orderName }}</td>
-          <td class="thead__delete">
-            <button
-              class="thead__delete-btn"
-              @click.stop="openConfirmDialog(order.id)"
-            >
-              +
-            </button>
-            <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
-            <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
-          </td>
-        </tr>
+          <tr
+            v-for="order in orders"
+            :key="order.id"
+            @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
+          >
+            <td class="thead__name">{{ order.userName }}</td>
+            <td class="thead__address">{{ order.address }}</td>
+            <td class="thead__data">
+              {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
+            </td>
+            <td class="thead__status">
+              <span :class="['status-label', statusColor(order.status)]">
+                {{ order.status }}
+              </span>
+            </td>
+            <td class="thead__comment">{{ order.comment }}</td>
+            <td class="thead__product">{{ order.orderName }}</td>
+            <td class="thead__delete">
+              <button
+                class="thead__delete-btn"
+                @click.stop="openConfirmDialog(order.id)"
+              >
+                +
+              </button>
+              <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
+              <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
+            </td>
+          </tr>
+        </TransitionGroup>
       </tbody>
 
       <tbody v-else>
@@ -252,6 +257,16 @@ async function handleDelete() {
   to {
     transform: rotate(360deg);
   }
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
 
