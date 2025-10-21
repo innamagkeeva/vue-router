@@ -1,16 +1,16 @@
-import { apiOrders } from '@/api'
+import { apiLocal } from '@/api'
 export const ordersApi = {
   getAll() {
-    return apiOrders<Order[]>('orders')
+    return apiLocal<Order[]>('orders')
   },
   create(order: Order) {
-    return apiOrders.post('orders', order)
+    return apiLocal.post('orders', order)
   },
   delete(id: string) {
-    return apiOrders.delete(`orders/${id}`)
+    return apiLocal.delete(`orders/${id}`)
   },
   getOrder(id: string) {
-    return apiOrders.get<Order>(`orders/${id}`)
+    return apiLocal.get<Order>(`orders/${id}`)
   },
 }
 

@@ -1,22 +1,46 @@
 <script setup lang="ts">
 import router from '@/router'
+import { registerApi } from '@/api/register'
 import { ref } from 'vue'
+import type { AxiosError } from 'axios'
 
 const login = ref<string>('')
 const password = ref<string>('')
 const firstName = ref<string>('')
 const secondName = ref<string>('')
 
-function signIn() {
+async function signIn() {
   if (
     login.value.length > 1 &&
     password.value.length > 1 &&
     firstName.value.length > 1 &&
     secondName.value.length > 1
   ) {
-    router.push({ name: 'home' })
+    try {
+      const response = await registerApi.createRegistration({
+        login: login.value,
+        password: password.value,
+        firstName: firstName.value,
+        secondName: secondName.value,
+      })
+      if (response.status === 201 || response.status === 200) {
+        console.log('Регистрация успешна!')
+        router.push({ name: 'home' })
+      } else {
+        console.log('Регистрация не удалась. Попробуйте снова.')
+      }
+    } catch (error: unknown) {
+      const err = error as AxiosError<{ message?: string }>
+      if (err.response) {
+        console.log(`Ошибка: ${err.response.data.message || 'Попробуйте снова'}`)
+      } else {
+        console.log('Ошибка подключения к серверу')
+      }
+
+      console.error('Ошибка при регистрации:', error)
+    }
   } else {
-    console.log('Не все данные ввели')
+    console.log('Пожалуйста, заполните все поля')
   }
 }
 </script>
