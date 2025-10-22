@@ -92,10 +92,7 @@ async function handleDelete() {
       </thead>
 
       <tbody v-if="orders">
-        <TransitionGroup
-          name="list"
-          teg="ul"
-        >
+        <TransitionGroup name="list">
           <tr
             v-for="order in orders"
             :key="order.id"
