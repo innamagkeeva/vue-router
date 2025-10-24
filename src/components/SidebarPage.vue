@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router'
+function logout() {
+  // 1 Удаляем токен из localStorage
+  localStorage.removeItem('token')
+
+  // 2 Перенаправляем на страницу авторизации
+  router.push({ name: 'auth' })
+  console.log('Вы вышли из системы')
+}
+</script>
 
 <template>
   <div class="wrapper">
@@ -58,12 +68,13 @@
       </li>
 
       <li>
-        <RouterLink
-          :to="{ name: 'auth' }"
+        <!-- Вместо  RouterLink используем кнопку-->
+        <button
+          @click="logout"
           class="routerLink__style"
-          active-class="my-active-class"
-          >Выход</RouterLink
         >
+          Выход
+        </button>
       </li>
     </ul>
   </div>

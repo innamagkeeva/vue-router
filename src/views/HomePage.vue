@@ -13,6 +13,8 @@ const isMoved = ref(false)
 function toggleMove() {
   isMoved.value = !isMoved.value
 }
+
+function logout() {}
 </script>
 
 <template>

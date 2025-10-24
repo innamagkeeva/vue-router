@@ -1,15 +1,38 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from '@/router'
+import { authApi } from '@/api/auth'
+import type { AxiosError } from 'axios'
 
 const login = ref<string>('')
 const password = ref<string>('')
 
-function signIn() {
+async function onSignIn() {
   if (login.value.length > 1 && password.value.length > 1) {
-    router.push({ name: 'home' })
-  } else {
-    console.log('Введите пароль правильно. Символов должно быть больше 5.')
+    try {
+      const response = await authApi.signIn({
+        login: login.value,
+        password: password.value,
+      })
+      if (response.status === 200) {
+        // Сохраняем токен в localStorage
+        localStorage.setItem('token', response.data.token)
+        console.log('Авторизация успешна!')
+        // когда авторизация успешна - переходим на главную страницу.
+        router.push({ name: 'home' })
+      } else {
+        // если login.value.length > 1 && password.value.length > 1-то выполняется запрос, А ИНАЧЕ:
+        console.log('Введите логин/пароль правильно. Символов должно быть больше 1.')
+      }
+    } catch (error: unknown) {
+      const err = error as AxiosError<{ message?: string }>
+      if (err.response) {
+        console.log(`Ошибка: ${err.response.data.message} || 'Неверный логин или пароль' `)
+      } else {
+        console.log('Ошибка подключения к серверу')
+      }
+      console.error(error)
+    }
   }
 }
 </script>
@@ -20,7 +43,7 @@ function signIn() {
       <h1 class="title">Вход в админку</h1>
       <form
         class="form"
-        @submit.prevent="signIn"
+        @submit.prevent="onSignIn"
       >
         <p class="form__text">Логин</p>
         <input
@@ -100,3 +123,7 @@ function signIn() {
   margin-bottom: 30px;
 }
 </style>
+
+<!-- Токен авторизации — это ключ (цифровой или физический), который используется для подтверждения личности пользователя и предоставления доступа к ресурсам без необходимости каждый раз вводить логин и пароль. Он может быть в виде программного файла (например, JWT) или физического устройства (например, USB-ключа), а также использоваться как дополнительный фактор аутентификации.  -->
+
+<!--  пока токен добавлен в localStorage - пользователь будет авторизован, и вход не будет требоваться = открывая сайт каждый раз будет попадать на свою страницу с доступом.  там делаю кнопку выхода из системы, то есть токен удаляется из  localStorage и теперь без новой авторизации на свою страницу не попасть.-->
