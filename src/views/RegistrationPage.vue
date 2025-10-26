@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import router from '@/router'
 import { registerApi } from '@/api/register'
 import { ref } from 'vue'
+import LoginForm from '@/components/LoginForm.vue'
+import router from '@/router'
 
 const login = ref<string>('')
 const password = ref<string>('')
@@ -9,6 +10,7 @@ const firstName = ref<string>('')
 const secondName = ref<string>('')
 
 async function signIn() {
+  console.log('Поля формы:', login.value, password.value, firstName.value, secondName.value)
   if (
     login.value.length > 1 &&
     password.value.length > 1 &&
@@ -43,22 +45,11 @@ async function signIn() {
         @submit.prevent="signIn"
         class="form"
       >
-        <p class="form__text">Логин</p>
-        <input
-          class="form__input"
-          type="text"
-          required
-          placeholder="Придумайте логин"
-          v-model="login"
+        <LoginForm
+          v-model:login="login"
+          v-model:password="password"
         />
-        <p class="form__text">Пароль</p>
-        <input
-          class="form__input"
-          type="password"
-          required
-          placeholder="Придумайте пароль"
-          v-model="password"
-        />
+
         <p class="form__text">Ваше имя</p>
         <input
           class="form__input"
@@ -69,7 +60,7 @@ async function signIn() {
         />
         <p class="form__text">Ваша фамилия</p>
         <input
-          class="form__input"
+          class="form__input form__input-secondName"
           type="text"
           required
           placeholder="Введите вашу фамилию"
@@ -122,5 +113,9 @@ async function signIn() {
   color: white;
   border: none;
   border-radius: 7px;
+}
+
+.form__input-secondName {
+  margin-bottom: 40px;
 }
 </style>

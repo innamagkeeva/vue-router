@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import router from '@/router'
 import { authApi } from '@/api/auth'
+import LoginForm from '@/components/LoginForm.vue'
+import router from '@/router'
 
 const login = ref<string>('')
 const password = ref<string>('')
 
 async function onSignIn() {
+  console.log('Поля формы:', login.value, password.value)
   if (login.value.length > 1 && password.value.length > 1) {
     try {
       const response = await authApi.signIn({
@@ -38,21 +40,9 @@ async function onSignIn() {
         class="form"
         @submit.prevent="onSignIn"
       >
-        <p class="form__text">Логин</p>
-        <input
-          class="form__input"
-          type="text"
-          required
-          placeholder="Введите логин"
-          v-model="login"
-        />
-        <p class="form__text">Пароль</p>
-        <input
-          class="form__input"
-          type="password"
-          required
-          placeholder="Введите пароль"
-          v-model="password"
+        <LoginForm
+          v-model:login="login"
+          v-model:password="password"
         />
         <button
           type="submit"
@@ -75,20 +65,6 @@ async function onSignIn() {
   height: 500px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.form__text,
-.form__input {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.form__input {
-  width: 100%;
-  height: 40px;
-  padding-left: 10px;
-  outline: none;
-  border: 1px solid grey;
 }
 
 .form__button {

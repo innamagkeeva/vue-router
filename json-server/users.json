@@ -54,5 +54,13 @@
     "hash": "031c410666f0a393bbfe0f4a6c6850603fe1678594d4cc4bada988c0dcab009c",
     "token": 1761346242863,
     "role": "USER"
+  },
+  {
+    "login": "zzzzz",
+    "firstName": "Inna",
+    "secondName": "Magkeeva",
+    "hash": "0d55f0c25c1b5ffbaa73de1c77f0df7203338efcf4ea5719ee8059950f2175a5",
+    "token": 1761518663282,
+    "role": "USER"
   }
 ]
