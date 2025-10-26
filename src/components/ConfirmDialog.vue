@@ -34,7 +34,6 @@ onUnmounted(() => {
     <div
       class="confirm"
       v-if="isOpen"
-      style="margin-top: 20px; text-align: center"
     >
       <h2 class="confirm__title">Вы точно хотите удалить заказ?</h2>
       <div class="confirm__actions">
@@ -64,6 +63,8 @@ onUnmounted(() => {
   background-color: gray;
   padding: 50px 20px;
   color: white;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .confirm__title {
@@ -80,10 +81,8 @@ onUnmounted(() => {
   border-radius: 8px;
   padding: 8px 16px;
   transition:
-    background-color 0,
-    3s ease,
-    color 0,
-    3s ease;
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .confirm__button:hover {

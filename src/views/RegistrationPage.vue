@@ -2,7 +2,6 @@
 import router from '@/router'
 import { registerApi } from '@/api/register'
 import { ref } from 'vue'
-import type { AxiosError } from 'axios'
 
 const login = ref<string>('')
 const password = ref<string>('')
@@ -29,18 +28,9 @@ async function signIn() {
       } else {
         console.log('Регистрация не удалась. Попробуйте снова.')
       }
-    } catch (error: unknown) {
-      const err = error as AxiosError<{ message?: string }>
-      if (err.response) {
-        console.log(`Ошибка: ${err.response.data.message || 'Попробуйте снова'}`)
-      } else {
-        console.log('Ошибка подключения к серверу')
-      }
-
-      console.error('Ошибка при регистрации:', error)
+    } catch (error) {
+      console.error(error)
     }
-  } else {
-    console.log('Пожалуйста, заполните все поля')
   }
 }
 </script>

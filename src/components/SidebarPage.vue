@@ -71,7 +71,7 @@ function logout() {
         <!-- Вместо  RouterLink используем кнопку-->
         <button
           @click="logout"
-          class="routerLink__style"
+          class="logout-btn"
         >
           Выход
         </button>
@@ -98,6 +98,12 @@ function logout() {
   line-height: 40px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.logout-btn {
+  display: block;
+  padding: 4px;
+  margin: 0 auto;
 }
 
 .my-active-class {

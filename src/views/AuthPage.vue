@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import router from '@/router'
 import { authApi } from '@/api/auth'
-import type { AxiosError } from 'axios'
 
 const login = ref<string>('')
 const password = ref<string>('')
@@ -24,13 +23,7 @@ async function onSignIn() {
         // если login.value.length > 1 && password.value.length > 1-то выполняется запрос, А ИНАЧЕ:
         console.log('Введите логин/пароль правильно. Символов должно быть больше 1.')
       }
-    } catch (error: unknown) {
-      const err = error as AxiosError<{ message?: string }>
-      if (err.response) {
-        console.log(`Ошибка: ${err.response.data.message} || 'Неверный логин или пароль' `)
-      } else {
-        console.log('Ошибка подключения к серверу')
-      }
+    } catch (error) {
       console.error(error)
     }
   }
@@ -61,7 +54,6 @@ async function onSignIn() {
           placeholder="Введите пароль"
           v-model="password"
         />
-        <button class="form__button form__button-memorization">Запомнить меня</button>
         <button
           type="submit"
           class="form__button form__button-entrance"
