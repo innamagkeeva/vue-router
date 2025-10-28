@@ -50,15 +50,16 @@ const routes = [
     name: 'auth',
     component: () => import('@/views/AuthPage.vue'),
   },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'notFound',
-    component: () => import('@/views/NotFoundPage.vue'),
-  },
+
   {
     path: '/register',
     name: 'register',
     component: () => import('@/views/RegistrationPage.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/NotFoundPage.vue'),
   },
 ]
 

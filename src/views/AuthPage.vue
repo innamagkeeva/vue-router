@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { authApi } from '@/api/auth'
 import LoginForm from '@/components/LoginForm.vue'
+import BaseButton from '@/components/BaseButton.vue'
 import router from '@/router'
 
 const login = ref<string>('')
@@ -44,12 +45,7 @@ async function onSignIn() {
           v-model:login="login"
           v-model:password="password"
         />
-        <button
-          type="submit"
-          class="form__button form__button-entrance"
-        >
-          Войти
-        </button>
+        <BaseButton> Войти</BaseButton>
       </form>
     </div>
   </div>
@@ -65,26 +61,6 @@ async function onSignIn() {
   height: 500px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.form__button {
-  width: 150px;
-  display: block;
-  font-size: 15px;
-  margin-bottom: 20px;
-}
-
-.form__button-memorization {
-  height: 35px;
-}
-
-.form__button-entrance {
-  height: 45px;
-  border: none;
-  border-radius: 10px;
-  background-color: blue;
-  color: white;
-  font-size: 15px;
 }
 
 .title {

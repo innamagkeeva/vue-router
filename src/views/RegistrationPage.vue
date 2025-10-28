@@ -2,6 +2,7 @@
 import { registerApi } from '@/api/register'
 import { ref } from 'vue'
 import LoginForm from '@/components/LoginForm.vue'
+import BaseButton from '@/components/BaseButton.vue'
 import router from '@/router'
 
 const login = ref<string>('')
@@ -49,7 +50,6 @@ async function signIn() {
           v-model:login="login"
           v-model:password="password"
         />
-
         <p class="form__text">Ваше имя</p>
         <input
           class="form__input"
@@ -66,12 +66,7 @@ async function signIn() {
           placeholder="Введите вашу фамилию"
           v-model="secondName"
         />
-        <button
-          class="form__button"
-          type="submit"
-        >
-          Зарегистрироваться
-        </button>
+        <BaseButton>Зарегистрироваться</BaseButton>
       </form>
     </div>
   </div>
@@ -93,6 +88,10 @@ async function signIn() {
   margin-bottom: 20px;
 }
 
+.form {
+  margin-bottom: 20px;
+}
+
 .form__text {
   font-size: 18px;
   margin-bottom: 15px;
@@ -104,18 +103,6 @@ async function signIn() {
   padding-left: 10px;
   outline: none;
   border: 1px solid grey;
-  margin-bottom: 15px;
-}
-
-.form__button {
-  padding: 10px;
-  background-color: blueviolet;
-  color: white;
-  border: none;
-  border-radius: 7px;
-}
-
-.form__input-secondName {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 </style>
