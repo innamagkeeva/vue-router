@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 function logout() {
-  // 1 Удаляем токен из localStorage
-  localStorage.removeItem('token')
-
-  // 2 Перенаправляем на страницу авторизации
+  // Перенаправляем на страницу авторизации
   router.push({ name: 'auth' })
   console.log('Вы вышли из системы')
 }
