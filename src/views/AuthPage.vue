@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { STORAGE_KEYS } from '@/constants/keys.ts'
 import { authApi } from '@/api/auth'
 import LoginForm from '@/components/LoginForm.vue'
 import BaseButton from '@/components/BaseButton.vue'
@@ -18,7 +19,7 @@ async function onSignIn() {
       })
       if (response.status === 200) {
         // Сохраняем токен в localStorage
-        localStorage.setItem('token', response.data.token)
+        localStorage.setItem(STORAGE_KEYS.TOKEN, response.data.token)
         // когда авторизация успешна - переходим на главную страницу.
         router.push({ name: 'home' })
       } else {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { registerApi } from '@/api/register'
 import { ref } from 'vue'
+import { STORAGE_KEYS } from '@/constants/keys.ts'
 import LoginForm from '@/components/LoginForm.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import router from '@/router'
@@ -26,7 +27,7 @@ async function signIn() {
         secondName: secondName.value,
       })
       if (response.status === 201 || response.status === 200) {
-        localStorage.setItem('token', response.data.token.toString())
+        localStorage.setItem(STORAGE_KEYS.TOKEN, response.data.token.toString())
         console.log('Регистрация успешна!')
         router.push({ name: 'home' })
       } else {
