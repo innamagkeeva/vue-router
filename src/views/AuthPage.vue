@@ -17,6 +17,8 @@ async function onSignIn() {
         password: password.value,
       })
       if (response.status === 200) {
+        // Сохраняем токен в localStorage
+        localStorage.setItem('token', response.data.token)
         // когда авторизация успешна - переходим на главную страницу.
         router.push({ name: 'home' })
       } else {

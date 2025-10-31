@@ -26,6 +26,7 @@ async function signIn() {
         secondName: secondName.value,
       })
       if (response.status === 201 || response.status === 200) {
+        localStorage.setItem('token', response.data.token.toString())
         console.log('Регистрация успешна!')
         router.push({ name: 'home' })
       } else {

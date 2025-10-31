@@ -123,18 +123,18 @@ server.use((req, res, next) => {
   }
 
   // чтобы включить проверку на авторизацию раскомментируй строчки между ***
-  //***
-  // const token = req.headers.authorization?.split(' ')[0]
-  // if (!token) {
-  //   return res.status(403).json({ data: 'Вы не авторизованны' })
-  // }
+  
+  const token = req.headers.authorization?.split(' ')[0]
+  if (!token) {
+    return res.status(403).json({ data: 'Вы не авторизованны' })
+  }
 
-  // const users = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'users.json'), 'UTF-8'))
-  // const userFromBD = users.find((user) => user.token === Number(token))
-  // if (!userFromBD) {
-  //   return res.status(403).json({ data: 'Вы не авторизованны' })
-  // }
-  //***
+  const users = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'users.json'), 'UTF-8'))
+  const userFromBD = users.find((user) => user.token === Number(token))
+  if (!userFromBD) {
+    return res.status(403).json({ data: 'Вы не авторизованны' })
+  }
+  
 
   next()
 })

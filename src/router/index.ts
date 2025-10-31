@@ -1,6 +1,6 @@
-import { createWebHistory, createRouter } from 'vue-router'
+import { createWebHistory, createRouter, type RouteRecordRaw } from 'vue-router'
 
-const routes = [
+const routes: readonly RouteRecordRaw[] = [
   {
     path: '/',
     name: 'my',
@@ -66,6 +66,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to) => {
+  if (to.name === 'auth' || to.name === 'register') {
+    return true
+  }
+  if (localStorage.getItem('token')) {
+    return true
+  }
+  return { name: 'auth' }
 })
 
 export default router

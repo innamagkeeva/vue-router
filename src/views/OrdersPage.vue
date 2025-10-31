@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { ordersApi, type Order } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
+import { AxiosError } from 'axios'
 
 const router = useRouter()
 const orders = ref<Order[] | null>(null)
@@ -13,6 +14,11 @@ async function getOrders() {
     orders.value = response.data
     console.log(response.data)
   } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.status === 403) {
+        router.push({ name: 'auth' })
+      }
+    }
     console.log(error)
   }
 }
