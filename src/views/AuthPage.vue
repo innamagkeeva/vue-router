@@ -45,7 +45,7 @@ async function onSignIn() {
           v-model:login="login"
           v-model:password="password"
         />
-        <BaseButton> Войти</BaseButton>
+        <BaseButton type="submit"> Войти</BaseButton>
       </form>
     </div>
   </div>

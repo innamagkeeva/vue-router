@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ordersApi, type OrderStatus } from '@/api/orders'
+import { useRouter } from 'vue-router'
+import BaseButton from '@/components/BaseButton.vue'
+
+const router = useRouter()
 
 function resetForm() {
   address.value = ''
@@ -37,6 +41,10 @@ const orderStatus = ref<OrderStatus>('Новый')
 
 function saveOrder() {
   createOrder()
+}
+
+function goToHomePage() {
+  router.push({ name: 'home' })
 }
 </script>
 
@@ -121,18 +129,20 @@ function saveOrder() {
         placeholder="Начните вводить название"
         v-model="product"
       />
-      <div class="form__button">
-        <button
+      <div class="form__buttons">
+        <BaseButton type="submit">Сохранить заказ</BaseButton>
+        <!-- <button
           type="submit"
           class="form__btn form__button-save"
         >
           сохранить заказ
-        </button>
-        <RouterLink
+        </button> -->
+        <BaseButton @click="goToHomePage">Отменить</BaseButton>
+        <!-- <RouterLink
           class="form__btn form__button-cancel"
           :to="{ name: 'home' }"
           >Отменить</RouterLink
-        >
+        > -->
       </div>
     </form>
   </div>
@@ -180,29 +190,11 @@ function saveOrder() {
   margin-bottom: 20px;
 }
 
-.form__button {
+.form__buttons {
   width: 350px;
   height: 40px;
-
   display: flex;
-}
-
-.form__btn {
-  width: 120px;
-  height: 40px;
-  border-radius: 10px;
-}
-
-.form__button-save {
-  background-color: blue;
-  color: white;
-  margin-right: 10px;
-}
-
-.form__button-cancel {
-  border: 1px solid black;
-  text-align: center;
-  line-height: 40px;
+  justify-content: space-between;
 }
 
 .input__name-product {
@@ -220,22 +212,3 @@ function saveOrder() {
   border-radius: 7px;
 }
 </style>
-
-<!-- // const router = useRouter()
-
-//   if (userName.value && address.value && data.value && comment.value && product.value) {
-//     router.push({ name: 'listOrders' })
-//   } else {
-//     console.log('Введите все данные')
-//   }
-//  -->
-<!-- <div class="form__user-data">
-          <p class="form__title">Статус</p>
-          <input
-            class="input__name"
-            type="text"
-            name="status"
-            placeholder="Новый"
-            v-model="status"
-          />
-        </div> -->

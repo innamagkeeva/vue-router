@@ -2,8 +2,9 @@
 import { onMounted, ref } from 'vue'
 import { ordersApi, type Order } from '@/api/orders'
 import { useRouter } from 'vue-router'
-import ConfirmDialog from '@/components/ConfirmDialog.vue'
 import { AxiosError } from 'axios'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 const router = useRouter()
 const orders = ref<Order[] | null>(null)
@@ -70,17 +71,17 @@ async function handleDelete() {
   isOpenConfirm.value = false
   selectedOrderId.value = null
 }
+
+function goToCreateOrder() {
+  router.push({ name: 'createOrder' })
+}
 </script>
 
 <template>
   <div class="list-orders">
     <div class="list-orders__header">
       <p class="list-orders__title">Список заказов</p>
-      <RouterLink
-        class="list-orders__button"
-        :to="{ name: 'createOrder' }"
-        >Создать заказ</RouterLink
-      >
+      <BaseButton @click="goToCreateOrder">Создать заказ</BaseButton>
     </div>
 
     <table class="order-table">
@@ -234,7 +235,7 @@ async function handleDelete() {
 }
 
 .status-label.blueviolet {
-  background-color: blueviolet;
+  background-color: orangered;
 }
 
 .status-label.red {

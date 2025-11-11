@@ -68,7 +68,7 @@ async function signIn() {
           placeholder="Введите вашу фамилию"
           v-model="secondName"
         />
-        <BaseButton>Зарегистрироваться</BaseButton>
+        <BaseButton type="submit">Зарегистрироваться</BaseButton>
       </form>
     </div>
   </div>
