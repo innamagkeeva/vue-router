@@ -40,7 +40,18 @@ const product = ref<string>('')
 const orderStatus = ref<OrderStatus>('Новый')
 
 function saveOrder() {
-  createOrder()
+  if (
+    userName.value &&
+    address.value &&
+    orderDate.value &&
+    comment.value &&
+    product.value &&
+    orderStatus.value
+  ) {
+    createOrder()
+  } else {
+    console.log('Введите все данные')
+  }
 }
 
 function goToHomePage() {
@@ -131,18 +142,13 @@ function goToHomePage() {
       />
       <div class="form__buttons">
         <BaseButton type="submit">Сохранить заказ</BaseButton>
-        <!-- <button
-          type="submit"
-          class="form__btn form__button-save"
+        <BaseButton
+          type="button"
+          @click="goToHomePage"
         >
-          сохранить заказ
-        </button> -->
-        <BaseButton @click="goToHomePage">Отменить</BaseButton>
-        <!-- <RouterLink
-          class="form__btn form__button-cancel"
-          :to="{ name: 'home' }"
-          >Отменить</RouterLink
-        > -->
+          Отменить
+        </BaseButton>
+        <!-- !!!!!ВОПРОС: по заданию - при нажатии на "Отменить" - переходить на главную. Почему не: просто очистить поля и остаться тут же?   -->
       </div>
     </form>
   </div>

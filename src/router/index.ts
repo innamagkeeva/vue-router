@@ -68,14 +68,14 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to) => {
-//   if (to.name === 'auth' || to.name === 'register') {
-//     return true
-//   }
-//   if (localStorage.getItem('token')) {
-//     return true
-//   }
-//   return { name: 'auth' }
-// })
+router.beforeEach((to) => {
+  if (to.name === 'auth' || to.name === 'register') {
+    return true
+  }
+  if (localStorage.getItem('token')) {
+    return true
+  }
+  return { name: 'auth' }
+})
 
 export default router
