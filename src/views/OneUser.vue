@@ -95,11 +95,6 @@ function goToUsersPage() {
       @click="goToUsersPage"
       >Назад</BaseButton
     >
-    <!-- <RouterLink
-      :to="{ name: 'user' }"
-      class="back-button"
-      >Назад</RouterLink
-    > -->
   </div>
 </template>
 

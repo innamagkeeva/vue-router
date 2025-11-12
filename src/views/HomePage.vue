@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
+import { userApi } from '@/api/users'
 
 const isOpen = ref(false)
 
@@ -13,6 +14,19 @@ const isMoved = ref(false)
 function toggleMove() {
   isMoved.value = !isMoved.value
 }
+
+async function getUser() {
+  try {
+    const response = await userApi.getUser()
+    console.log(response.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(() => {
+  getUser()
+})
 </script>
 
 <template>

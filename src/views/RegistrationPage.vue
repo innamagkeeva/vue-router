@@ -2,9 +2,11 @@
 import { registerApi } from '@/api/register'
 import { ref } from 'vue'
 import { STORAGE_KEYS } from '@/constants/keys.ts'
+import { useRouter } from 'vue-router'
 import LoginForm from '@/components/LoginForm.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import router from '@/router'
+
+const router = useRouter()
 
 const login = ref<string>('')
 const password = ref<string>('')

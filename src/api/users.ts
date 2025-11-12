@@ -1,8 +1,15 @@
 import { api } from '@/api/'
+import { apiLocal } from '@/api/'
 
 export const usersApi = {
   get() {
     return api<Users[]>('users')
+  },
+}
+
+export const userApi = {
+  getUser() {
+    return apiLocal<User>('user')
   },
 }
 
@@ -28,4 +35,12 @@ export interface Users {
     catchPhrase: string
     bs: string
   }
+}
+
+interface User {
+  login: string
+  firstName: string
+  secondName: string
+  token: number
+  role: string
 }
