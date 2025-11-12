@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/api'
+import BaseButton from '@/components/BaseButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -50,6 +51,10 @@ async function getUser() {
 onMounted(() => {
   getUser()
 })
+
+function goToUsersPage() {
+  router.push({ name: 'user' })
+}
 </script>
 
 <template>
@@ -84,12 +89,17 @@ onMounted(() => {
       <div class="spinner"></div>
       <p>Загрузка...</p>
     </div>
-
-    <RouterLink
+    <BaseButton
+      type="button"
+      class="back-button"
+      @click="goToUsersPage"
+      >Назад</BaseButton
+    >
+    <!-- <RouterLink
       :to="{ name: 'user' }"
       class="back-button"
       >Назад</RouterLink
-    >
+    > -->
   </div>
 </template>
 
@@ -101,15 +111,7 @@ onMounted(() => {
 }
 
 .back-button {
-  display: block;
-  width: 55px;
   margin: 0 auto;
-  margin-bottom: 30px;
-  padding: 6px;
-  border: none;
-  border-radius: 7px;
-  background-color: blueviolet;
-  color: white;
 }
 
 .user__business-card {
