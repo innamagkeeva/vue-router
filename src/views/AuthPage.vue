@@ -33,6 +33,10 @@ async function onSignIn() {
     }
   }
 }
+
+function goToRegistrationPage() {
+  router.push({ name: 'register' })
+}
 </script>
 
 <template>
@@ -47,7 +51,14 @@ async function onSignIn() {
           v-model:login="login"
           v-model:password="password"
         />
-        <BaseButton type="submit"> Войти</BaseButton>
+        <div class="form__buttons">
+          <BaseButton type="submit">Войти</BaseButton>
+          <BaseButton
+            type="button"
+            @click="goToRegistrationPage"
+            >Регистрация</BaseButton
+          >
+        </div>
       </form>
     </div>
   </div>
@@ -67,5 +78,11 @@ async function onSignIn() {
 
 .title {
   margin-bottom: 30px;
+}
+
+.form__buttons {
+  width: 350px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

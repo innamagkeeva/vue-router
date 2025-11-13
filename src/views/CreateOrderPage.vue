@@ -198,7 +198,6 @@ function goToHomePage() {
 
 .form__buttons {
   width: 350px;
-  height: 40px;
   display: flex;
   justify-content: space-between;
 }
