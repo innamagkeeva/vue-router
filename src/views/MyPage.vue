@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { userApi, type User } from '@/api/users'
 import SidebarPage from '@/components/SidebarPage.vue'
+import HeaderPage from '@/components/HeaderPage.vue'
 
 const user = ref<User | null>(null)
 
@@ -21,12 +22,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="header"
+  <HeaderPage
     v-if="user"
-  >
-    {{ user?.firstName }} {{ user?.secondName }}
-  </div>
+    :first-name="user.firstName"
+    :second-name="user.secondName"
+  />
   <div class="flex">
     <div class="flex__sidebar">
       <SidebarPage :login="user?.login" />
@@ -51,15 +51,6 @@ onMounted(() => {
   flex: 1;
   padding: 30px 10px;
   margin-left: 230px;
-}
-
-.header {
-  width: 100%;
-  height: 60px;
-  border-bottom: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 25px;
+  margin-top: 60px;
 }
 </style>

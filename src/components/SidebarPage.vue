@@ -97,6 +97,7 @@ function logout() {
   padding-top: 30px;
   padding-left: 10px;
   border-right: 1px solid grey;
+  margin-top: 60px;
 }
 
 .title {
