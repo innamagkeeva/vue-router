@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import router from '@/router'
+
+defineProps<{
+  login?: string
+}>()
+
 function logout() {
   // 1 удаляем токен из localStorage
   localStorage.removeItem('token')
@@ -12,6 +17,12 @@ function logout() {
 <template>
   <div class="wrapper">
     <h1 class="title">E-Shop Admin</h1>
+    <p
+      class="routerLink__style routerLink__style-login"
+      v-if="login"
+    >
+      Логин: {{ login }}
+    </p>
     <ul>
       <li>
         <RouterLink
@@ -97,6 +108,10 @@ function logout() {
   line-height: 40px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.routerLink__style-login {
+  font-size: 20px;
 }
 
 .logout-btn {

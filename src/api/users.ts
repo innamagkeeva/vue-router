@@ -1,15 +1,14 @@
-import { api } from '@/api/'
-import { apiLocal } from '@/api/'
+import { api, apiLocal } from '@/api/'
 
 export const usersApi = {
   get() {
-    return api<Users[]>('users')
+    return api.get<Users[]>('users')
   },
 }
 
 export const userApi = {
   getUser() {
-    return apiLocal<User>('user')
+    return apiLocal.get<User>('user')
   },
 }
 
@@ -37,7 +36,7 @@ export interface Users {
   }
 }
 
-interface User {
+export interface User {
   login: string
   firstName: string
   secondName: string
