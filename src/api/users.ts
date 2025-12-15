@@ -41,5 +41,5 @@ export interface User {
   firstName: string
   secondName: string
   token: number
-  role: string
+  role: 'USER' | 'ADMIN'
 }
