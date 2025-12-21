@@ -5,20 +5,14 @@ import { useRouter } from 'vue-router'
 import { AxiosError } from 'axios'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { userApi, type User } from '@/api/users'
+import { type User } from '@/api/users'
 
 const router = useRouter()
 const orders = ref<Order[] | null>(null)
-const user = ref<User | null>(null)
 
-async function getUser() {
-  try {
-    const response = await userApi.getUser()
-    user.value = response.data
-  } catch (error) {
-    console.log(error)
-  }
-}
+const props = defineProps<{
+  user: User | null
+}>()
 
 async function getOrders() {
   try {
@@ -37,7 +31,6 @@ async function getOrders() {
 
 onMounted(() => {
   getOrders()
-  getUser()
 })
 
 function statusColor(status: string) {
@@ -93,7 +86,7 @@ function goToCreateOrder() {
   <div class="list-orders">
     <div class="list-orders__header">
       <p class="list-orders__title">Список заказов</p>
-      <BaseButton @click="goToCreateOrder">Создать заказ ({{ user?.role }})</BaseButton>
+      <BaseButton @click="goToCreateOrder">Создать заказ ({{ props.user?.role }})</BaseButton>
     </div>
 
     <table class="order-table">

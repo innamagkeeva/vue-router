@@ -32,7 +32,7 @@ onMounted(() => {
       <SidebarPage :login="user?.login" />
     </div>
     <div class="flex__router">
-      <RouterView />
+      <RouterView :user="user" />
     </div>
   </div>
 </template>
