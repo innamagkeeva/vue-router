@@ -99,7 +99,7 @@ function goToCreateOrder() {
           <th class="thead__status">Статус</th>
           <th class="thead__comment">Комментарий</th>
           <th class="thead__product">Название товара</th>
-          <th class="thead__delete">Удалить заказ</th>
+          <th class="thead__delete-edit">Удалить/Редактировать заказ</th>
         </tr>
       </thead>
 
@@ -122,15 +122,23 @@ function goToCreateOrder() {
             </td>
             <td class="thead__comment">{{ order.comment }}</td>
             <td class="thead__product">{{ order.orderName }}</td>
-            <td class="thead__delete">
-              <button
-                class="thead__delete-btn"
-                @click.stop="openConfirmDialog(order.id)"
-              >
-                +
-              </button>
-              <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
-              <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
+            <td class="thead__delete-edit">
+              <div class="thead__buttons">
+                <button
+                  class="thead__delete-btn"
+                  @click.stop="openConfirmDialog(order.id)"
+                >
+                  +
+                </button>
+                <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
+                <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
+                <button class="thead__edit-btn">
+                  <img
+                    src="@/assets/icons/edit.svg"
+                    alt="edit"
+                  />
+                </button>
+              </div>
             </td>
           </tr>
         </TransitionGroup>
@@ -217,10 +225,31 @@ function goToCreateOrder() {
   width: 210px;
 }
 
+.thead__delete {
+  width: 51px;
+}
+
+.thead__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thead__delete-btn,
+.thead__edit-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: background-color 0.4s ease;
+}
+
 .thead__delete-btn {
-  width: 20px;
-  height: 20px;
-  rotate: 45deg;
+  transform: rotate(45deg);
+  font-size: 24px;
+}
+
+.thead__delete-btn:hover,
+.thead__edit-btn:hover {
+  background-color: aqua;
 }
 
 .status-label {
