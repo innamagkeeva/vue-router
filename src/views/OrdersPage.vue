@@ -21,7 +21,7 @@ async function getOrders() {
     console.log(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      if (error.status === 403) {
+      if (error.response?.status === 403) {
         router.push({ name: 'auth' })
       }
     }
@@ -132,7 +132,10 @@ function goToCreateOrder() {
                 </button>
                 <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
                 <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
-                <button class="thead__edit-btn">
+                <button
+                  class="thead__edit-btn"
+                  @click.stop="router.push({ name: 'editOrder', params: { id: order.id } })"
+                >
                   <img
                     src="@/assets/icons/edit.svg"
                     alt="edit"

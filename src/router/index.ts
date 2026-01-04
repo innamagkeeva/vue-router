@@ -18,14 +18,19 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import('@/views/CreateOrderPage.vue'),
       },
       {
-        path: 'listOrders',
-        name: 'listOrders',
+        path: 'orders',
+        name: 'Orders',
         component: () => import('@/views/OrdersPage.vue'),
       },
       {
-        path: 'listOrders/:id',
+        path: 'orders/:id',
         name: 'oneOrder',
         component: () => import('@/views/OneOrder.vue'),
+      },
+      {
+        path: 'orders/:id/edit',
+        name: 'editOrder',
+        component: () => import('@/views/EditOrderPage.vue'),
       },
       {
         path: 'user',

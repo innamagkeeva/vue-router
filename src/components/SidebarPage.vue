@@ -43,7 +43,7 @@ function logout() {
 
       <li>
         <RouterLink
-          :to="{ name: 'listOrders' }"
+          :to="{ name: 'Orders' }"
           class="routerLink__style"
           active-class="my-active-class"
           >Заказы</RouterLink

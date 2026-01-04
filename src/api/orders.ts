@@ -12,9 +12,12 @@ export const ordersApi = {
   getOrder(id: string) {
     return apiLocal.get<Order>(`orders/${id}`)
   },
+  update(id: string, order: Order) {
+    return apiLocal.put(`orders/${id}`, order)
+  },
 }
 
-export type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменён'
+export type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменен'
 
 export interface Order {
   address: string
