@@ -43,6 +43,10 @@ async function saveOrder() {
   router.push({ name: 'Orders' })
 }
 
+function goToOrdersPage() {
+  router.push({ name: 'Orders' })
+}
+
 onMounted(getOrder)
 </script>
 
@@ -116,7 +120,15 @@ onMounted(getOrder)
         type="text"
         v-model="product"
       />
-      <BaseButton type="submit">Сохранить заказ</BaseButton>
+      <div class="form__buttons">
+        <BaseButton type="submit">Сохранить заказ</BaseButton>
+        <BaseButton
+          type="button"
+          @click="goToOrdersPage"
+        >
+          Отменить
+        </BaseButton>
+      </div>
     </form>
   </div>
 </template>
