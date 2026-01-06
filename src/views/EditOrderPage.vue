@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import BaseButton from '@/components/BaseButton.vue'
@@ -9,42 +9,51 @@ const router = useRouter()
 
 const id = route.params.id as string
 
-const userName = ref<string>('')
-const address = ref<string>('')
-const comment = ref<string>('')
-const product = ref<string>('')
-const orderDate = ref<string>('')
-const orderStatus = ref<OrderStatus>('Новый')
+const orderForm = reactive({
+  userName: '',
+  address: '',
+  comment: '',
+  product: '',
+  orderDate: '',
+  orderStatus: 'Новый' as OrderStatus,
+})
 
 async function getOrder() {
   try {
     const response = await ordersApi.getOrder(id)
     const order = response.data
 
-    userName.value = order.userName
-    address.value = order.address
-    comment.value = order.comment
-    product.value = order.orderName
+    orderForm.userName = order.userName
+    orderForm.address = order.address
+    orderForm.comment = order.comment
+    orderForm.product = order.orderName
+    orderForm.orderStatus = order.status
   } catch (error) {
     console.log(error)
   }
 }
 
 async function saveOrder() {
-  await ordersApi.update(id, {
-    id,
-    userName: userName.value,
-    address: address.value,
-    comment: comment.value,
-    orderName: product.value,
-    status: orderStatus.value,
-    date: Date.now(),
-  })
-  router.push({ name: 'Orders' })
+  try {
+    const response = await ordersApi.update(id, {
+      // переменную можно не использовать, сразу написать await ordersApi.update.... если не нужен консольЛог
+      id,
+      userName: orderForm.userName,
+      address: orderForm.address,
+      comment: orderForm.comment,
+      orderName: orderForm.product,
+      status: orderForm.orderStatus,
+      date: Date.now(),
+    })
+    console.log('Данные успешно исправлены', response.data) // Если я сюда ставлю консольЛог, то выводит в консоль исправленный заказ, если после пуша на страницу заказов - то выводит все заказы вместе с исправленным
+    router.push({ name: 'orders' })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function goToOrdersPage() {
-  router.push({ name: 'Orders' })
+  router.push({ name: 'orders' })
 }
 
 onMounted(getOrder)
@@ -63,7 +72,7 @@ onMounted(getOrder)
           <input
             class="input__order"
             type="text"
-            v-model="userName"
+            v-model="orderForm.userName"
           />
         </div>
         <div class="form__user-data form__user-address">
@@ -71,7 +80,7 @@ onMounted(getOrder)
           <input
             class="input__order"
             type="text"
-            v-model="address"
+            v-model="orderForm.address"
           />
         </div>
       </div>
@@ -82,17 +91,17 @@ onMounted(getOrder)
           <input
             class="input__order"
             type="date"
-            v-model="orderDate"
+            v-model="orderForm.orderDate"
           />
         </div>
 
         <div class="form__user-data">
           <div class="status__select">
-            Выбран статус: <strong>{{ orderStatus || 'Не выбран' }}</strong>
+            Выбран статус: <strong>{{ orderForm.orderStatus || 'Не выбран' }}</strong>
           </div>
           <select
             class="select__model"
-            v-model="orderStatus"
+            v-model="orderForm.orderStatus"
           >
             <option
               disabled
@@ -111,14 +120,14 @@ onMounted(getOrder)
       <p class="form__title">Комментарий</p>
       <textarea
         class="form__comment"
-        v-model="comment"
+        v-model="orderForm.comment"
       ></textarea>
 
       <p class="form__title">Название товара</p>
       <input
         class="input__order"
         type="text"
-        v-model="product"
+        v-model="orderForm.product"
       />
       <div class="form__buttons">
         <BaseButton type="submit">Сохранить заказ</BaseButton>

@@ -118,7 +118,7 @@ function goToHomePage() {
             </option>
             <option>Новый</option>
             <option>В процессе</option>
-            <option>Завершен</option>
+            <option>Выполнен</option>
             <option>Отменен</option>
           </select>
         </div>

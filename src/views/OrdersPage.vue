@@ -104,7 +104,10 @@ function goToCreateOrder() {
       </thead>
 
       <tbody v-if="orders">
-        <TransitionGroup name="list">
+        <TransitionGroup
+          name="list"
+          tag="tbody"
+        >
           <tr
             v-for="order in orders"
             :key="order.id"
