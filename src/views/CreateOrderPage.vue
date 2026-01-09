@@ -3,8 +3,16 @@ import { ref } from 'vue'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseInput from '@/components/BaseInput.vue'
 
 const router = useRouter()
+
+const userName = ref<string>('')
+const address = ref<string>('')
+const orderDate = ref<string>('')
+const comment = ref<string>('')
+const product = ref<string>('')
+const orderStatus = ref<OrderStatus>('Новый')
 
 function resetForm() {
   address.value = ''
@@ -12,6 +20,7 @@ function resetForm() {
   orderDate.value = ''
   product.value = ''
   userName.value = ''
+  orderStatus.value = 'Новый'
 }
 
 async function createOrder() {
@@ -31,13 +40,6 @@ async function createOrder() {
     console.log(error)
   }
 }
-
-const userName = ref<string>('')
-const address = ref<string>('')
-const orderDate = ref<string>('')
-const comment = ref<string>('')
-const product = ref<string>('')
-const orderStatus = ref<OrderStatus>('Новый')
 
 function saveOrder() {
   if (
@@ -67,39 +69,29 @@ function goToHomePage() {
       @submit.prevent="saveOrder"
     >
       <div class="form__row">
-        <div class="form__user-data">
-          <p class="form__title">Имя заказчика</p>
-          <input
-            class="input__order"
-            type="text"
-            name="name"
-            placeholder="Например: Иван Петров"
-            v-model="userName"
-          />
-        </div>
+        <BaseInput
+          id="userName"
+          label="Имя заказчика"
+          v-model="userName"
+          placeholder="Введите имя"
+        />
 
-        <div class="form__user-data form__user-address">
-          <p class="form__title">Адрес</p>
-          <input
-            class="input__order"
-            type="text"
-            name="name"
-            placeholder="Город, улица, дом, кв"
-            v-model="address"
-          />
-        </div>
+        <BaseInput
+          class="form__user-address"
+          id="address"
+          label="Адрес"
+          v-model="address"
+          placeholder="Город, улица, дом, кв"
+        />
       </div>
 
       <div class="form__row">
-        <div class="form__user-data">
-          <p class="form__title">Дата</p>
-          <input
-            class="input__order"
-            type="date"
-            placeholder="введите дату"
-            v-model="orderDate"
-          />
-        </div>
+        <BaseInput
+          id="date"
+          type="date"
+          label="Дата"
+          v-model="orderDate"
+        />
 
         <div>
           <div class="status__select">
@@ -124,22 +116,24 @@ function goToHomePage() {
         </div>
       </div>
 
-      <p class="form__title">Комментарий</p>
-      <textarea
-        class="form__comment"
-        name="comment"
-        placeholder="Комментарий"
-        v-model="comment"
-      ></textarea>
+      <div class="form__user-data">
+        <p class="form__title">Комментарий</p>
+        <textarea
+          class="form__comment"
+          name="comment"
+          placeholder="Комментарий"
+          v-model="comment"
+        ></textarea>
+      </div>
 
-      <p class="form__title">Название товара</p>
-      <input
-        class="input__order input__name-product"
-        type="text"
-        name="product"
-        placeholder="Начните вводить название"
+      <BaseInput
+        class="form__product"
+        id="product"
+        label="Название товара"
         v-model="product"
+        placeholder="Начните вводить название товара"
       />
+
       <div class="form__buttons">
         <BaseButton type="submit">Сохранить заказ</BaseButton>
         <BaseButton
@@ -148,7 +142,6 @@ function goToHomePage() {
         >
           Отменить
         </BaseButton>
-        <!-- !!!!!ВОПРОС: по заданию - при нажатии на "Отменить" - переходить на главную. Почему не: просто очистить поля и остаться тут же?   -->
       </div>
     </form>
   </div>
@@ -176,13 +169,6 @@ function goToHomePage() {
   width: 115px;
 }
 
-.form__user-data {
-  width: 270px;
-  height: 80px;
-  padding: 10px;
-  margin-right: 10px;
-}
-
 .form__user-address {
   width: 430px;
 }
@@ -202,7 +188,8 @@ function goToHomePage() {
   justify-content: space-between;
 }
 
-.input__name-product {
+.form__product {
+  width: 100%;
   margin-bottom: 40px;
 }
 
