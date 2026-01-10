@@ -3,6 +3,7 @@ import { onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseInput from '@/components/BaseInput.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -67,33 +68,27 @@ onMounted(getOrder)
       @submit.prevent="saveOrder"
     >
       <div class="form__row">
-        <div class="form__user-data">
-          <p class="form__title">Имя заказчика</p>
-          <input
-            class="input__order"
-            type="text"
-            v-model="orderForm.userName"
-          />
-        </div>
-        <div class="form__user-data form__user-address">
-          <p class="form__title">Адрес</p>
-          <input
-            class="input__order"
-            type="text"
-            v-model="orderForm.address"
-          />
-        </div>
+        <BaseInput
+          id="edit-user-name"
+          label="Имя заказчика"
+          v-model="orderForm.userName"
+        />
+
+        <BaseInput
+          class="form__user-address"
+          id="edit-address"
+          label="Адрес"
+          v-model="orderForm.address"
+        />
       </div>
 
       <div class="form__row">
-        <div class="form__user-data">
-          <p class="form__title">Дата</p>
-          <input
-            class="input__order"
-            type="date"
-            v-model="orderForm.orderDate"
-          />
-        </div>
+        <BaseInput
+          id="edit-date"
+          type="date"
+          label="Дата"
+          v-model="orderForm.orderDate"
+        />
 
         <div class="form__user-data">
           <div class="status__select">
@@ -123,20 +118,21 @@ onMounted(getOrder)
         v-model="orderForm.comment"
       ></textarea>
 
-      <p class="form__title">Название товара</p>
-      <input
-        class="input__order"
-        type="text"
+      <BaseInput
+        class="form__product"
+        id="product"
+        label="Название товара"
         v-model="orderForm.product"
       />
+
       <div class="form__buttons">
-        <BaseButton type="submit">Сохранить заказ</BaseButton>
         <BaseButton
           type="button"
           @click="goToOrdersPage"
         >
           Отменить
         </BaseButton>
+        <BaseButton type="submit">Сохранить заказ</BaseButton>
       </div>
     </form>
   </div>
@@ -177,6 +173,11 @@ onMounted(getOrder)
 
 .input__order {
   margin-bottom: 20px;
+}
+
+.form__product {
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 .form__comment {

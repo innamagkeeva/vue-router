@@ -30,6 +30,7 @@ defineEmits<{
     />
   </div>
 </template>
+<!-- $emit или $event - ($) Это данные эмита или события -->
 
 <style scoped>
 .form__title {
@@ -47,5 +48,9 @@ defineEmits<{
 
 .input__order {
   width: 100%;
+  height: 35px;
+  padding-left: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 </style>

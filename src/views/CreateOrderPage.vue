@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { ordersApi, orderStatuses, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
@@ -7,32 +7,34 @@ import BaseInput from '@/components/BaseInput.vue'
 
 const router = useRouter()
 
-const userName = ref<string>('')
-const address = ref<string>('')
-const orderDate = ref<string>('')
-const comment = ref<string>('')
-const product = ref<string>('')
-const orderStatus = ref<OrderStatus | ''>('')
+const orderForm = reactive({
+  userName: '',
+  address: '',
+  date: '',
+  comment: '',
+  product: '',
+  status: '' as OrderStatus | '',
+})
 
 function resetForm() {
-  address.value = ''
-  comment.value = ''
-  orderDate.value = ''
-  product.value = ''
-  userName.value = ''
-  orderStatus.value = ''
+  orderForm.address = ''
+  orderForm.comment = ''
+  orderForm.date = ''
+  orderForm.product = ''
+  orderForm.userName = ''
+  orderForm.status = ''
 }
 
 async function createOrder(status: OrderStatus) {
   try {
     const response = await ordersApi.create({
-      address: address.value,
-      comment: comment.value,
-      date: Date.now(),
+      address: orderForm.address,
+      comment: orderForm.comment,
+      date: new Date(orderForm.date).getTime(),
       id: Date.now().toString(),
-      orderName: product.value,
+      orderName: orderForm.product,
       status,
-      userName: userName.value,
+      userName: orderForm.userName,
     })
     console.log('Заказ успешно сохранен', response.data)
     resetForm()
@@ -43,14 +45,15 @@ async function createOrder(status: OrderStatus) {
 
 function saveOrder() {
   if (
-    userName.value &&
-    address.value &&
-    orderDate.value &&
-    comment.value &&
-    product.value &&
-    orderStatus.value !== ''
+    orderForm.userName &&
+    orderForm.address &&
+    orderForm.date &&
+    orderForm.comment &&
+    orderForm.product &&
+    orderForm.status !== ''
   ) {
-    createOrder(orderStatus.value)
+    const status: OrderStatus = orderForm.status
+    createOrder(status)
   } else {
     console.log('Введите все данные')
   }
@@ -70,9 +73,9 @@ function goToHomePage() {
     >
       <div class="form__row">
         <BaseInput
-          id="userName"
+          id="user-name"
           label="Имя заказчика"
-          v-model="userName"
+          v-model="orderForm.userName"
           placeholder="Введите имя"
         />
 
@@ -80,7 +83,7 @@ function goToHomePage() {
           class="form__user-address"
           id="address"
           label="Адрес"
-          v-model="address"
+          v-model="orderForm.address"
           placeholder="Город, улица, дом, кв"
         />
       </div>
@@ -90,20 +93,20 @@ function goToHomePage() {
           id="date"
           type="date"
           label="Дата"
-          v-model="orderDate"
+          v-model="orderForm.date"
         />
 
         <div>
           <div class="status__select">
             Выбран статус:
             <strong>{{
-              orderStatuses.find((s) => s.value === orderStatus)?.label || 'Не выбран'
+              orderStatuses.find((s) => s.value === orderForm.status)?.label || 'Не выбран'
             }}</strong>
           </div>
 
           <select
             class="select__model"
-            v-model="orderStatus"
+            v-model="orderForm.status"
           >
             <option
               disabled
@@ -129,7 +132,7 @@ function goToHomePage() {
           class="form__comment"
           name="comment"
           placeholder="Комментарий"
-          v-model="comment"
+          v-model="orderForm.comment"
         ></textarea>
       </div>
 
@@ -137,7 +140,7 @@ function goToHomePage() {
         class="form__product"
         id="product"
         label="Название товара"
-        v-model="product"
+        v-model="orderForm.product"
         placeholder="Начните вводить название товара"
       />
 
