@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ordersApi, type OrderStatus } from '@/api/orders'
+import { ordersApi, orderStatuses, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
@@ -12,7 +12,7 @@ const address = ref<string>('')
 const orderDate = ref<string>('')
 const comment = ref<string>('')
 const product = ref<string>('')
-const orderStatus = ref<OrderStatus>('Новый')
+const orderStatus = ref<OrderStatus | ''>('')
 
 function resetForm() {
   address.value = ''
@@ -20,10 +20,10 @@ function resetForm() {
   orderDate.value = ''
   product.value = ''
   userName.value = ''
-  orderStatus.value = 'Новый'
+  orderStatus.value = ''
 }
 
-async function createOrder() {
+async function createOrder(status: OrderStatus) {
   try {
     const response = await ordersApi.create({
       address: address.value,
@@ -31,7 +31,7 @@ async function createOrder() {
       date: Date.now(),
       id: Date.now().toString(),
       orderName: product.value,
-      status: orderStatus.value,
+      status,
       userName: userName.value,
     })
     console.log('Заказ успешно сохранен', response.data)
@@ -48,9 +48,9 @@ function saveOrder() {
     orderDate.value &&
     comment.value &&
     product.value &&
-    orderStatus.value
+    orderStatus.value !== ''
   ) {
-    createOrder()
+    createOrder(orderStatus.value)
   } else {
     console.log('Введите все данные')
   }
@@ -95,7 +95,10 @@ function goToHomePage() {
 
         <div>
           <div class="status__select">
-            Выбран статус: <strong>{{ orderStatus || 'Не выбран' }}</strong>
+            Выбран статус:
+            <strong>{{
+              orderStatuses.find((s) => s.value === orderStatus)?.label || 'Не выбран'
+            }}</strong>
           </div>
 
           <select
@@ -108,10 +111,14 @@ function goToHomePage() {
             >
               Выберите один из вариантов
             </option>
-            <option>Новый</option>
-            <option>В процессе</option>
-            <option>Выполнен</option>
-            <option>Отменен</option>
+
+            <option
+              v-for="status in orderStatuses"
+              :key="status.value"
+              :value="status.value"
+            >
+              {{ status.label }}
+            </option>
           </select>
         </div>
       </div>
@@ -135,13 +142,13 @@ function goToHomePage() {
       />
 
       <div class="form__buttons">
-        <BaseButton type="submit">Сохранить заказ</BaseButton>
         <BaseButton
           type="button"
           @click="goToHomePage"
         >
           Отменить
         </BaseButton>
+        <BaseButton type="submit">Сохранить заказ</BaseButton>
       </div>
     </form>
   </div>

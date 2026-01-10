@@ -17,7 +17,23 @@ export const ordersApi = {
   },
 }
 
-export type OrderStatus = 'Новый' | 'В процессе' | 'Выполнен' | 'Отменен'
+export const orderStatuses = [
+  { value: 'new', label: 'Новый' },
+  { value: 'in progress', label: 'В процессе' },
+  { value: 'completed', label: 'Выполнено' },
+  { value: 'cancel', label: 'Отменен' },
+] as const
+// Для себя: as const делает: По сути ты говоришь TypeScript:«Считай это не обычным массивом,а набором констант, значения которых нельзя менять» (только те, и никакие другие)
+
+export type OrderStatus = (typeof orderStatuses)[number]['value']
+
+//typeof в TypeScript (не путать с JS!) берёт тип переменной, а не значение.
+
+// [number] - «Возьми тип любого элемента этого массива» Не 0, не 1, а любой.(проще:(orderStatuses[0] | orderStatuses[1] | orderStatuses[2] | orderStatuses[3]))
+
+// ['value'] - Теперь берём только поле value у каждого элемента:
+
+// !!!!! typeof orderStatuses[number]['value']Это превращается в: 'new' | 'in progress' | 'completed' | 'cancel'
 
 export interface Order {
   address: string

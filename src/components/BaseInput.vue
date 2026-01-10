@@ -10,6 +10,7 @@ defineProps<{
 defineEmits<{
   'update:modelValue': [value: string]
 }>()
+// Для себя: тут не нужно const emit= потому что эмитим в шаблоне (нет функции)
 </script>
 
 <template>
