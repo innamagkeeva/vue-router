@@ -272,7 +272,7 @@ function goToCreateOrder() {
 }
 
 .status-label.blueviolet {
-  background-color: orangered;
+  background-color: blueviolet;
 }
 
 .status-label.red {

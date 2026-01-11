@@ -18,10 +18,10 @@ export const ordersApi = {
 }
 
 export const orderStatuses = [
-  { value: 'new', label: 'Новый' },
-  { value: 'in progress', label: 'В процессе' },
-  { value: 'completed', label: 'Выполнено' },
-  { value: 'cancel', label: 'Отменен' },
+  { value: 'Новый', label: 'Новый' },
+  { value: 'В процессе', label: 'В процессе' },
+  { value: 'Выполнен', label: 'Выполнен' },
+  { value: 'Отменен', label: 'Отменен' },
 ] as const
 // Для себя: as const делает: По сути ты говоришь TypeScript:«Считай это не обычным массивом,а набором констант, значения которых нельзя менять» (только те, и никакие другие)
 
