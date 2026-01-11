@@ -209,8 +209,8 @@ onMounted(getOrder)
 
 .select__model {
   width: 220px;
-  height: 40px;
-  border: 1px solid black;
+  height: 35px;
+  border: 1px solid gray;
   border-radius: 7px;
 }
 </style>
