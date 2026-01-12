@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { ordersApi, orderStatuses, type OrderStatus } from '@/api/orders'
+import { ordersApi, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import OrderStatusSelect from '@/components/OrderStatusSelect.vue'
 
 const router = useRouter()
 
@@ -96,34 +97,7 @@ function goToHomePage() {
           v-model="orderForm.date"
         />
 
-        <div>
-          <div class="status__select">
-            Выбран статус:
-            <strong>{{
-              orderStatuses.find((s) => s.value === orderForm.status)?.label || 'Не выбран'
-            }}</strong>
-          </div>
-
-          <select
-            class="select__model"
-            v-model="orderForm.status"
-          >
-            <option
-              disabled
-              value=""
-            >
-              Выберите один из вариантов
-            </option>
-
-            <option
-              v-for="status in orderStatuses"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-        </div>
+        <OrderStatusSelect v-model="orderForm.status" />
       </div>
 
       <div class="form__user-data">
@@ -202,15 +176,7 @@ function goToHomePage() {
   width: 100%;
   margin-bottom: 40px;
 }
-
-.status__select {
-  margin-bottom: 20px;
-}
-
-.select__model {
-  width: 220px;
-  height: 35px;
-  border: 1px solid gray;
-  border-radius: 7px;
-}
 </style>
+
+<!-- для себя:  | - типовой "или". те "а" или "b" или "с" (точнее - может быть или "а" или "b" -любой) ,   || - логический OR те: а||b если а-тру - покажет а, если а - фолс - покажет b. 
+  -->
