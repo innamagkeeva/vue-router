@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import OrderStatusSelect from '@/components/OrderStatusSelect.vue'
+import BaseTextarea from '@/components/BaseTextarea.vue'
 
 const router = useRouter()
 
@@ -100,7 +101,14 @@ function goToHomePage() {
         <OrderStatusSelect v-model="orderForm.status" />
       </div>
 
-      <div class="form__user-data">
+      <BaseTextarea
+        label="Комментарий"
+        id="comment"
+        placeholder="Ваш комментарий"
+        v-model="orderForm.comment"
+      />
+
+      <!-- <div class="form__user-data">
         <p class="form__title">Комментарий</p>
         <textarea
           class="form__comment"
@@ -108,7 +116,7 @@ function goToHomePage() {
           placeholder="Комментарий"
           v-model="orderForm.comment"
         ></textarea>
-      </div>
+      </div> -->
 
       <BaseInput
         class="form__product"
@@ -148,21 +156,11 @@ function goToHomePage() {
   margin-bottom: 20px;
 }
 
-.form__title {
-  margin-bottom: 10px;
-  width: 115px;
-}
-
 .form__user-address {
   width: 430px;
 }
 
 .input__order {
-  margin-bottom: 20px;
-}
-
-.form__comment {
-  width: 500px;
   margin-bottom: 20px;
 }
 
