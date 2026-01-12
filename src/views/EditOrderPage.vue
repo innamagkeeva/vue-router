@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ordersApi, orderStatuses, type OrderStatus } from '@/api/orders'
+import { ordersApi, type OrderStatus } from '@/api/orders'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import OrderStatusSelect from '@/components/OrderStatusSelect.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -90,34 +91,7 @@ onMounted(getOrder)
           v-model="orderForm.orderDate"
         />
 
-        <div>
-          <div class="status__select">
-            Выбран статус:
-            <strong>{{
-              orderStatuses.find((s) => s.value === orderForm.orderStatus)?.label || 'Не выбран'
-            }}</strong>
-          </div>
-
-          <select
-            class="select__model"
-            v-model="orderForm.orderStatus"
-          >
-            <option
-              disabled
-              value=""
-            >
-              Выберите один из вариантов
-            </option>
-
-            <option
-              v-for="status in orderStatuses"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-        </div>
+        <OrderStatusSelect v-model="orderForm.orderStatus" />
       </div>
 
       <p class="form__title">Комментарий</p>
