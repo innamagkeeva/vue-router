@@ -108,16 +108,6 @@ function goToHomePage() {
         v-model="orderForm.comment"
       />
 
-      <!-- <div class="form__user-data">
-        <p class="form__title">Комментарий</p>
-        <textarea
-          class="form__comment"
-          name="comment"
-          placeholder="Комментарий"
-          v-model="orderForm.comment"
-        ></textarea>
-      </div> -->
-
       <BaseInput
         class="form__product"
         id="product"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { ordersApi, type Order } from '@/api/orders'
+import { ordersApi, type Order, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import { AxiosError } from 'axios'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
@@ -33,7 +33,7 @@ onMounted(() => {
   getOrders()
 })
 
-function statusColor(status: string) {
+function statusColor(status: OrderStatus) {
   switch (status) {
     case 'Новый':
       return 'green'

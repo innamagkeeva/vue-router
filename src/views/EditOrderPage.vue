@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseTextarea from '@/components/BaseTextarea.vue'
 import OrderStatusSelect from '@/components/OrderStatusSelect.vue'
 
 const route = useRoute()
@@ -17,7 +18,7 @@ const orderForm = reactive({
   comment: '',
   product: '',
   orderDate: '',
-  orderStatus: 'new' as OrderStatus,
+  orderStatus: 'Новый' as OrderStatus,
 })
 
 async function getOrder() {
@@ -45,7 +46,7 @@ async function saveOrder() {
       comment: orderForm.comment,
       orderName: orderForm.product,
       status: orderForm.orderStatus,
-      date: Date.now(),
+      date: new Date(orderForm.orderDate).getTime(),
     })
     console.log('Данные успешно исправлены', response.data) // Если я сюда ставлю консольЛог, то выводит в консоль исправленный заказ, если после пуша на страницу заказов - то выводит все заказы вместе с исправленным
     router.push({ name: 'orders' })
@@ -94,11 +95,11 @@ onMounted(getOrder)
         <OrderStatusSelect v-model="orderForm.orderStatus" />
       </div>
 
-      <p class="form__title">Комментарий</p>
-      <textarea
-        class="form__comment"
+      <BaseTextarea
+        label="Комментарий"
+        id="comment"
         v-model="orderForm.comment"
-      ></textarea>
+      />
 
       <BaseInput
         class="form__product"

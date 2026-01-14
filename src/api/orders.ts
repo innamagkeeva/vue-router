@@ -1,7 +1,7 @@
 import { apiLocal } from '@/api'
 export const ordersApi = {
   getAll() {
-    return apiLocal<Order[]>('orders')
+    return apiLocal.get<Order[]>('orders')
   },
   create(order: Order) {
     return apiLocal.post('orders', order)
