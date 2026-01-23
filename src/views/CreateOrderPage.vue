@@ -29,38 +29,48 @@ const errors = reactive({
   status: '',
 })
 
-// Функция валидации через "руками"
+// Функции валидации:
 
-// function validateForm() {
-//   errors.userName = orderForm.userName ? '' : 'Заполните это поле'
-//   errors.address = orderForm.address ? '' : 'Заполните это поле'
-//   errors.date = orderForm.date ? '' : 'Заполните это поле'
-//   errors.comment = orderForm.comment ? '' : 'Заполните это поле'
-//   errors.product = orderForm.product ? '' : 'Заполните это поле'
-//   errors.status = orderForm.status ? '' : 'Заполните это поле'
+function validateUserName() {
+  errors.userName = orderForm.userName.length > 2 ? '' : 'Заполните это поле'
+}
 
-//   return (
-//     !errors.userName &&
-//     !errors.address &&
-//     !errors.date &&
-//     !errors.comment &&
-//     !errors.product &&
-//     !errors.status
-//   )
-// }Оставила для наглядности.закомментировала.
+function validateAddress() {
+  errors.address = orderForm.address.length > 10 ? '' : 'Заполните это поле'
+}
 
-// Функция валидации через перебор. Не руками по каждому полю,как закомментированный пример выше, а один цикл.
+function validateDate() {
+  errors.date = orderForm.date ? '' : 'Заполните это поле'
+}
+
+function validateComment() {
+  errors.comment = orderForm.comment ? '' : 'Заполните это поле'
+}
+
+function validateProduct() {
+  errors.product = orderForm.product ? '' : 'Заполните это поле'
+}
+
+function validateStatus() {
+  errors.status = orderForm.status ? '' : 'Заполните это поле'
+}
+
 function validateForm() {
-  let isValid = true
+  validateUserName()
+  validateAddress()
+  validateDate()
+  validateComment()
+  validateProduct()
+  validateStatus()
 
-  for (const key of Object.keys(errors) as Array<keyof typeof orderForm>) {
-    // тут говорится:«key — это НЕ любая строка,а один из ключей формы»
-    if (!orderForm[key]) {
-      errors[key] = 'Заполните это поле'
-      isValid = false
-    }
-  }
-  return isValid
+  return (
+    !errors.userName &&
+    !errors.address &&
+    !errors.date &&
+    !errors.comment &&
+    !errors.product &&
+    !errors.status
+  )
 }
 
 function resetForm() {
