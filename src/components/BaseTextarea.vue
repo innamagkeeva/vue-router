@@ -46,6 +46,6 @@ defineEmits<{
   display: flex;
   flex-direction: column;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 </style>

@@ -143,10 +143,7 @@ function goToHomePage() {
             v-model="orderForm.userName"
             placeholder="Введите имя"
           />
-          <p
-            v-if="errors.userName"
-            class="error"
-          >
+          <p class="error">
             {{ errors.userName }}
           </p>
         </div>
@@ -159,10 +156,7 @@ function goToHomePage() {
             v-model="orderForm.address"
             placeholder="Город, улица, дом, кв"
           />
-          <p
-            v-if="errors.address"
-            class="error"
-          >
+          <p class="error">
             {{ errors.address }}
           </p>
         </div>
@@ -176,20 +170,14 @@ function goToHomePage() {
             label="Дата"
             v-model="orderForm.date"
           />
-          <p
-            v-if="errors.date"
-            class="error"
-          >
+          <p class="error">
             {{ errors.date }}
           </p>
         </div>
 
         <div class="form__block">
           <OrderStatusSelect v-model="orderForm.status" />
-          <p
-            v-if="errors.status"
-            class="error"
-          >
+          <p class="error">
             {{ errors.status }}
           </p>
         </div>
@@ -202,10 +190,7 @@ function goToHomePage() {
           placeholder="Ваш комментарий"
           v-model="orderForm.comment"
         />
-        <p
-          v-if="errors.comment"
-          class="error"
-        >
+        <p class="error">
           {{ errors.comment }}
         </p>
       </div>
@@ -218,10 +203,7 @@ function goToHomePage() {
           v-model="orderForm.product"
           placeholder="Начните вводить название товара"
         />
-        <p
-          v-if="errors.product"
-          class="error"
-        >
+        <p class="error">
           {{ errors.product }}
         </p>
       </div>
@@ -253,7 +235,7 @@ function goToHomePage() {
 
 .form__row {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .form__user-address {
@@ -276,16 +258,17 @@ function goToHomePage() {
 }
 
 .error {
-  max-width: 120px;
+  min-height: 18px;
   margin: 0 auto;
   color: red;
   font-size: 13px;
-  margin-bottom: 20px;
 }
 
 .form__block {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 </style>
 
