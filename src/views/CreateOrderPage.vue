@@ -85,13 +85,13 @@ function resetForm() {
 async function createOrder(status: OrderStatus) {
   try {
     const response = await ordersApi.create({
+      userName: orderForm.userName,
       address: orderForm.address,
       comment: orderForm.comment,
       date: new Date(orderForm.date).getTime(),
       id: Date.now().toString(),
       orderName: orderForm.product,
       status,
-      userName: orderForm.userName,
     })
     console.log('Заказ успешно сохранен', response.data)
     resetForm()
@@ -195,7 +195,7 @@ function goToHomePage() {
         </p>
       </div>
 
-      <div class="form__block">
+      <div class="form__block form__block-indent">
         <BaseInput
           class="form__product"
           id="product"
@@ -254,10 +254,10 @@ function goToHomePage() {
 
 .form__product {
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .error {
+  width: 120px;
   min-height: 18px;
   margin: 0 auto;
   color: red;
@@ -269,6 +269,10 @@ function goToHomePage() {
   flex-direction: column;
   gap: 4px;
   margin-bottom: 10px;
+}
+
+.form__block-indent {
+  margin-bottom: 50px;
 }
 </style>
 
