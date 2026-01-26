@@ -17,9 +17,60 @@ const orderForm = reactive({
   address: '',
   comment: '',
   product: '',
-  orderDate: '',
-  orderStatus: 'Новый' as OrderStatus,
+  date: '',
+  status: 'Новый' as OrderStatus,
 })
+
+const errors = reactive({
+  userName: '',
+  address: '',
+  date: '',
+  comment: '',
+  product: '',
+  status: '',
+})
+
+function validateUserName() {
+  errors.userName = orderForm.userName.length > 2 ? '' : 'Заполните это поле'
+}
+
+function validateAddress() {
+  errors.address = orderForm.address.length > 10 ? '' : 'Заполните это поле'
+}
+
+function validateDate() {
+  errors.date = orderForm.date ? '' : 'Заполните это поле'
+}
+
+function validateComment() {
+  errors.comment = orderForm.comment ? '' : 'Заполните это поле'
+}
+
+function validateProduct() {
+  errors.product = orderForm.product ? '' : 'Заполните это поле'
+}
+
+function validateStatus() {
+  errors.status = orderForm.status ? '' : 'Заполните это поле'
+}
+
+function validateForm() {
+  validateUserName()
+  validateAddress()
+  validateDate()
+  validateComment()
+  validateProduct()
+  validateStatus()
+
+  return (
+    !errors.userName &&
+    !errors.address &&
+    !errors.date &&
+    !errors.comment &&
+    !errors.product &&
+    !errors.status
+  )
+}
 
 async function getOrder() {
   try {
@@ -30,13 +81,16 @@ async function getOrder() {
     orderForm.address = order.address
     orderForm.comment = order.comment
     orderForm.product = order.orderName
-    orderForm.orderStatus = order.status
+    orderForm.status = order.status
   } catch (error) {
     console.log(error)
   }
 }
 
 async function saveOrder() {
+  if (!validateForm()) {
+    return
+  }
   try {
     const response = await ordersApi.update(id, {
       // переменную можно не использовать, сразу написать await ordersApi.update.... если не нужен консольЛог
@@ -45,8 +99,8 @@ async function saveOrder() {
       address: orderForm.address,
       comment: orderForm.comment,
       orderName: orderForm.product,
-      status: orderForm.orderStatus,
-      date: new Date(orderForm.orderDate).getTime(),
+      status: orderForm.status,
+      date: new Date(orderForm.date).getTime(),
     })
     console.log('Данные успешно исправлены', response.data) // Если я сюда ставлю консольЛог, то выводит в консоль исправленный заказ, если после пуша на страницу заказов - то выводит все заказы вместе с исправленным
     router.push({ name: 'orders' })
@@ -70,43 +124,59 @@ onMounted(getOrder)
       @submit.prevent="saveOrder"
     >
       <div class="form__row">
-        <BaseInput
-          id="edit-user-name"
-          label="Имя заказчика"
-          v-model="orderForm.userName"
-        />
+        <div class="form__block">
+          <BaseInput
+            id="edit-user-name"
+            label="Имя заказчика"
+            v-model="orderForm.userName"
+          />
+          <p class="error">{{ errors.userName }}</p>
+        </div>
 
-        <BaseInput
-          class="form__user-address"
-          id="edit-address"
-          label="Адрес"
-          v-model="orderForm.address"
-        />
+        <div class="form__block">
+          <BaseInput
+            class="form__user-address"
+            id="edit-address"
+            label="Адрес"
+            v-model="orderForm.address"
+          />
+          <p class="error">{{ errors.address }}</p>
+        </div>
       </div>
 
       <div class="form__row">
-        <BaseInput
-          id="edit-date"
-          type="date"
-          label="Дата"
-          v-model="orderForm.orderDate"
-        />
+        <div class="form__block">
+          <BaseInput
+            id="edit-date"
+            type="date"
+            label="Дата"
+            v-model="orderForm.date"
+          />
+          <p class="error">{{ errors.date }}</p>
+        </div>
 
-        <OrderStatusSelect v-model="orderForm.orderStatus" />
+        <OrderStatusSelect v-model="orderForm.status" />
+        <p class="error">{{ errors.status }}</p>
       </div>
 
-      <BaseTextarea
-        label="Комментарий"
-        id="comment"
-        v-model="orderForm.comment"
-      />
+      <div class="form__block">
+        <BaseTextarea
+          label="Комментарий"
+          id="comment"
+          v-model="orderForm.comment"
+        />
+        <p class="error">{{ errors.comment }}</p>
+      </div>
 
-      <BaseInput
-        class="form__product"
-        id="product"
-        label="Название товара"
-        v-model="orderForm.product"
-      />
+      <div class="form__block form__block-indent">
+        <BaseInput
+          class="form__product"
+          id="product"
+          label="Название товара"
+          v-model="orderForm.product"
+        />
+        <p class="error">{{ errors.product }}</p>
+      </div>
 
       <div class="form__buttons">
         <BaseButton
@@ -187,5 +257,20 @@ onMounted(getOrder)
   height: 35px;
   border: 1px solid gray;
   border-radius: 7px;
+}
+
+.error {
+  width: 120px;
+  min-height: 18px;
+  margin: 0 auto;
+  color: red;
+  font-size: 13px;
+}
+
+.form__block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 </style>
