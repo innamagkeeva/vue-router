@@ -72,6 +72,10 @@ function validateForm() {
   )
 }
 
+function formatDateForInput(timestamp: number) {
+  return new Date(timestamp).toISOString().split('T')[0]
+}
+
 async function getOrder() {
   try {
     const response = await ordersApi.getOrder(id)
@@ -82,6 +86,7 @@ async function getOrder() {
     orderForm.comment = order.comment
     orderForm.product = order.orderName
     orderForm.status = order.status
+    orderForm.date = formatDateForInput(order.date)
   } catch (error) {
     console.log(error)
   }
