@@ -111,11 +111,11 @@ function goToCreateOrder() {
         v-for="(checked, status) in statusFilters"
         :key="status"
       >
-        <span>{{ status }}</span>
         <input
           type="checkbox"
           v-model="statusFilters[status]"
         />
+        <span>{{ status }}</span>
       </label>
       <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
       checked → true / false
