@@ -14,6 +14,13 @@ const props = defineProps<{
   user: User | null
 }>()
 
+const statusFilters = ref<Record<OrderStatus, boolean>>({
+  Новый: true,
+  'В процессе': true,
+  Выполнен: true,
+  Отменен: true,
+})
+
 async function getOrders() {
   try {
     const response = await ordersApi.getAll()
@@ -92,14 +99,13 @@ function goToCreateOrder() {
     <table class="order-table">
       <thead>
         <tr>
-          <th class="thead__name">Имя заказчика</th>
-
-          <th class="thead__address">Адрес</th>
-          <th class="thead__data">Дата</th>
-          <th class="thead__status">Статус</th>
-          <th class="thead__comment">Комментарий</th>
-          <th class="thead__product">Название товара</th>
-          <th class="thead__delete-edit">Удалить/Редактировать заказ</th>
+          <th class="order__user-name">Имя заказчика</th>
+          <th class="order__address">Адрес</th>
+          <th class="order__data">Дата</th>
+          <th class="order__status">Статус</th>
+          <th class="order__comment">Комментарий</th>
+          <th class="order__product">Название товара</th>
+          <th class="order__delete-edit">Удалить/Редактировать заказ</th>
         </tr>
       </thead>
 
@@ -110,22 +116,22 @@ function goToCreateOrder() {
             :key="order.id"
             @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
           >
-            <td class="thead__name">{{ order.userName }}</td>
-            <td class="thead__address">{{ order.address }}</td>
-            <td class="thead__data">
+            <td class="order__user-name">{{ order.userName }}</td>
+            <td class="order__address">{{ order.address }}</td>
+            <td class="order__data">
               {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
             </td>
-            <td class="thead__status">
+            <td class="order__status">
               <span :class="['status-label', statusColor(order.status)]">
                 {{ order.status }}
               </span>
             </td>
-            <td class="thead__comment">{{ order.comment }}</td>
-            <td class="thead__product">{{ order.orderName }}</td>
-            <td class="thead__delete-edit">
-              <div class="thead__buttons">
+            <td class="order__comment">{{ order.comment }}</td>
+            <td class="order__product">{{ order.orderName }}</td>
+            <td class="order__delete-edit">
+              <div class="orders__buttons">
                 <button
-                  class="thead__delete-btn"
+                  class="order__delete-btn"
                   @click.stop="openConfirmDialog(order.id)"
                 >
                   +
@@ -133,7 +139,7 @@ function goToCreateOrder() {
                 <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
                 <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
                 <button
-                  class="thead__edit-btn"
+                  class="order__edit-btn"
                   @click.stop="router.push({ name: 'editOrder', params: { id: order.id } })"
                 >
                   <img
@@ -210,48 +216,44 @@ function goToCreateOrder() {
   border: 1px solid gray;
 }
 
-.thead__name {
+.order__user-name {
   width: 180px;
 }
-.thead__address {
+.order__address {
   width: 320px;
 }
-.thead__data,
-.thead__status {
+.order__data,
+.order__status {
   width: 120px;
 }
-.thead__comment {
+.order__comment {
   width: 250px;
 }
 
-.thead__product {
+.order__product {
   width: 210px;
 }
 
-.thead__delete {
-  width: 51px;
-}
-
-.thead__buttons {
+.orders__buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.thead__delete-btn,
-.thead__edit-btn {
+.order__delete-btn,
+.order__edit-btn {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   transition: background-color 0.4s ease;
 }
 
-.thead__delete-btn {
+.order__delete-btn {
   transform: rotate(45deg);
   font-size: 24px;
 }
 
-.thead__delete-btn:hover,
-.thead__edit-btn:hover {
+.order__delete-btn:hover,
+.order__edit-btn:hover {
   background-color: aqua;
 }
 
@@ -315,7 +317,6 @@ function goToCreateOrder() {
  <table> Создаёт таблицу
  <tr> Table Row — строка таблицы
  <th> Table Header — ячейка-заголовок 
- <tr> Table Row — строка таблицы 
  <td> Table Data — обычная ячейка с данными
  <tbody> — это контейнер для всех строк с данными таблицы.Он отделяет основные данные таблицы от её заголовков (<thead>) и нижней части (<tfoot>), если они используются.
  
