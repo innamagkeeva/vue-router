@@ -20,7 +20,6 @@ defineProps<{
   height: 40px;
   display: block;
   font-size: 15px;
-  margin-bottom: 20px;
   background-color: blueviolet;
   color: white;
   border: none;

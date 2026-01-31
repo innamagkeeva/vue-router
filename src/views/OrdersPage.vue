@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { ordersApi, type Order, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import { AxiosError } from 'axios'
@@ -19,6 +19,12 @@ const statusFilters = ref<Record<OrderStatus, boolean>>({
   'В процессе': true,
   Выполнен: true,
   Отменен: true,
+})
+
+const filteredOrders = computed(() => {
+  if (!orders.value) return null
+
+  return orders.value.filter((order) => statusFilters.value[order.status])
 })
 
 async function getOrders() {
@@ -96,42 +102,63 @@ function goToCreateOrder() {
       <BaseButton @click="goToCreateOrder">Создать заказ ({{ props.user?.role }})</BaseButton>
     </div>
 
+    <!-- Создаем список чекбоксов, автоматически построенный
+из объекта statusFilters (ключ-название статуса. значение-включен ли чекбокс)-->
+
+    <div class="status-filters">
+      <label
+        class="status-filter"
+        v-for="(checked, status) in statusFilters"
+        :key="status"
+      >
+        <span>{{ status }}</span>
+        <input
+          type="checkbox"
+          v-model="statusFilters[status]"
+        />
+      </label>
+      <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
+      checked → true / false
+      status → 'Новый' | 'В процессе' | ...
+      слово 'checked'если не подсвечивает, можно заменить на '_' или настроить ESLint, чтобы он такое подсвечивал, но можно оставить и так-все работает -->
+    </div>
+
     <table class="order-table">
       <thead>
         <tr>
-          <th class="order__user-name">Имя заказчика</th>
-          <th class="order__address">Адрес</th>
-          <th class="order__data">Дата</th>
-          <th class="order__status">Статус</th>
-          <th class="order__comment">Комментарий</th>
-          <th class="order__product">Название товара</th>
-          <th class="order__delete-edit">Удалить/Редактировать заказ</th>
+          <th class="order-table__user-name">Имя заказчика</th>
+          <th class="order-table__address">Адрес</th>
+          <th class="order-table__data">Дата</th>
+          <th class="order-table__status">Статус</th>
+          <th class="order-table__comment">Комментарий</th>
+          <th class="order-table__product">Название товара</th>
+          <th class="order-table__delete-edit">Удалить/Редактировать заказ</th>
         </tr>
       </thead>
 
-      <tbody v-if="orders">
+      <tbody v-if="filteredOrders">
         <TransitionGroup name="list">
           <tr
-            v-for="order in orders"
+            v-for="order in filteredOrders"
             :key="order.id"
             @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
           >
-            <td class="order__user-name">{{ order.userName }}</td>
-            <td class="order__address">{{ order.address }}</td>
-            <td class="order__data">
+            <td class="order-table__user-name">{{ order.userName }}</td>
+            <td class="order-table__address">{{ order.address }}</td>
+            <td class="order-table__data">
               {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
             </td>
-            <td class="order__status">
+            <td class="order-table__status">
               <span :class="['status-label', statusColor(order.status)]">
                 {{ order.status }}
               </span>
             </td>
-            <td class="order__comment">{{ order.comment }}</td>
-            <td class="order__product">{{ order.orderName }}</td>
-            <td class="order__delete-edit">
-              <div class="orders__buttons">
+            <td class="order-table__comment">{{ order.comment }}</td>
+            <td class="order-table__product">{{ order.orderName }}</td>
+            <td class="order-table__delete-edit">
+              <div class="order-table__buttons">
                 <button
-                  class="order__delete-btn"
+                  class="order-table__delete-btn"
                   @click.stop="openConfirmDialog(order.id)"
                 >
                   +
@@ -139,7 +166,7 @@ function goToCreateOrder() {
                 <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
                 <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
                 <button
-                  class="order__edit-btn"
+                  class="order-table__edit-btn"
                   @click.stop="router.push({ name: 'editOrder', params: { id: order.id } })"
                 >
                   <img
@@ -183,9 +210,7 @@ function goToCreateOrder() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 40px;
-  padding: 10px;
   margin-bottom: 30px;
 }
 
@@ -204,6 +229,19 @@ function goToCreateOrder() {
   color: white;
 }
 
+.status-filters {
+  display: flex;
+  gap: 20px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+.status-filter {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
 .order-table {
   width: 100%;
   border-collapse: collapse;
@@ -219,41 +257,41 @@ function goToCreateOrder() {
 .order__user-name {
   width: 180px;
 }
-.order__address {
+.order-table__address {
   width: 320px;
 }
-.order__data,
-.order__status {
+.order-table__data,
+.order-table__status {
   width: 120px;
 }
-.order__comment {
+.order-table__comment {
   width: 250px;
 }
 
-.order__product {
+.order-table__product {
   width: 210px;
 }
 
-.orders__buttons {
+.order-table__buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.order__delete-btn,
-.order__edit-btn {
+.order-table__delete-btn,
+.order-table__edit-btn {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   transition: background-color 0.4s ease;
 }
 
-.order__delete-btn {
+.order-table__delete-btn {
   transform: rotate(45deg);
   font-size: 24px;
 }
 
-.order__delete-btn:hover,
-.order__edit-btn:hover {
+.order-table__delete-btn:hover,
+.order-table__edit-btn:hover {
   background-color: aqua;
 }
 
