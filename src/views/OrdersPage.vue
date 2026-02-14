@@ -22,7 +22,7 @@ const statusFilters = ref<Record<OrderStatus, boolean>>({
 })
 
 const filteredOrders = computed(() => {
-  if (!orders.value) return null
+  if (!orders.value) return []
 
   return orders.value.filter((order) => statusFilters.value[order.status])
 })
@@ -101,102 +101,107 @@ function goToCreateOrder() {
       <p class="list-orders__title">Список заказов</p>
       <BaseButton @click="goToCreateOrder">Создать заказ ({{ props.user?.role }})</BaseButton>
     </div>
+    <!-- Если еще не загрузилось ничего, то крутится спиннер -->
+    <div
+      v-if="orders === null"
+      class="spinner__wrapper"
+    >
+      <div class="spinner"></div>
+      <p>Загрузка...</p>
+    </div>
 
-    <!-- Создаем список чекбоксов, автоматически построенный
+    <!-- Если галочки фильтров сняты, то заголовок "НЕТ ЗАКАЗОВ" -->
+    <div v-else-if="filteredOrders.length === 0">
+      <p>Нет заказов</p>
+    </div>
+
+    <!-- Если заказы есть, то загружается таблица -->
+    <div v-else>
+      <!-- Создаем список чекбоксов, автоматически построенный
 из объекта statusFilters (ключ-название статуса. значение-включен ли чекбокс)-->
 
-    <div class="status-filters">
-      <label
-        class="status-filter"
-        v-for="(checked, status) in statusFilters"
-        :key="status"
-      >
-        <span>{{ status }}</span>
-        <input
-          type="checkbox"
-          v-model="statusFilters[status]"
-        />
-      </label>
-      <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
+      <div class="status-filters">
+        <label
+          class="status-filter"
+          v-for="(checked, status) in statusFilters"
+          :key="status"
+        >
+          <span>{{ status }}</span>
+          <input
+            type="checkbox"
+            v-model="statusFilters[status]"
+          />
+        </label>
+        <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
       checked → true / false
       status → 'Новый' | 'В процессе' | ...
       слово 'checked'если не подсвечивает, можно заменить на '_' или настроить ESLint, чтобы он такое подсвечивал, но можно оставить и так-все работает -->
-    </div>
+      </div>
 
-    <table class="order-table">
-      <thead>
-        <tr>
-          <th class="order-table__user-name">Имя заказчика</th>
-          <th class="order-table__address">Адрес</th>
-          <th class="order-table__data">Дата</th>
-          <th class="order-table__status">Статус</th>
-          <th class="order-table__comment">Комментарий</th>
-          <th class="order-table__product">Название товара</th>
-          <th class="order-table__delete-edit">Удалить/Редактировать заказ</th>
-        </tr>
-      </thead>
-
-      <tbody v-if="filteredOrders">
-        <TransitionGroup name="list">
-          <tr
-            v-for="order in filteredOrders"
-            :key="order.id"
-            @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
-          >
-            <td class="order-table__user-name">{{ order.userName }}</td>
-            <td class="order-table__address">{{ order.address }}</td>
-            <td class="order-table__data">
-              {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
-            </td>
-            <td class="order-table__status">
-              <span :class="['status-label', statusColor(order.status)]">
-                {{ order.status }}
-              </span>
-            </td>
-            <td class="order-table__comment">{{ order.comment }}</td>
-            <td class="order-table__product">{{ order.orderName }}</td>
-            <td class="order-table__delete-edit">
-              <div class="order-table__buttons order-table__buttons-side">
-                <button
-                  class="order-table__delete-btn"
-                  @click.stop="openConfirmDialog(order.id)"
-                >
-                  +
-                </button>
-                <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
-                <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
-                <button
-                  class="order-table__edit-btn"
-                  @click.stop="router.push({ name: 'editOrder', params: { id: order.id } })"
-                >
-                  <img
-                    src="@/assets/icons/edit.svg"
-                    alt="edit"
-                  />
-                </button>
-              </div>
-            </td>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th class="order-table__user-name">Имя заказчика</th>
+            <th class="order-table__address">Адрес</th>
+            <th class="order-table__data">Дата</th>
+            <th class="order-table__status">Статус</th>
+            <th class="order-table__comment">Комментарий</th>
+            <th class="order-table__product">Название товара</th>
+            <th class="order-table__delete-edit">Удалить/Редактировать заказ</th>
           </tr>
-        </TransitionGroup>
-      </tbody>
+        </thead>
 
-      <tbody v-else>
-        <tr>
-          <td
-            colspan="7"
-            class="spinner__wrapper"
-          >
-            <div class="spinner"></div>
-            <p>Загрузка...</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ConfirmDialog
-      v-model="isOpenConfirm"
-      @ok="handleDelete"
-    />
-    <!-- Нажимаешь "ok" — вызывается deleteOrder(id) -->
+        <tbody>
+          <TransitionGroup name="list">
+            <tr
+              v-for="order in filteredOrders"
+              :key="order.id"
+              @click.stop="router.push({ name: 'oneOrder', params: { id: String(order.id) } })"
+            >
+              <td class="order-table__user-name">{{ order.userName }}</td>
+              <td class="order-table__address">{{ order.address }}</td>
+              <td class="order-table__data">
+                {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
+              </td>
+              <td class="order-table__status">
+                <span :class="['status-label', statusColor(order.status)]">
+                  {{ order.status }}
+                </span>
+              </td>
+              <td class="order-table__comment">{{ order.comment }}</td>
+              <td class="order-table__product">{{ order.orderName }}</td>
+              <td class="order-table__delete-edit">
+                <div class="order-table__buttons order-table__buttons-side">
+                  <button
+                    class="order-table__delete-btn"
+                    @click.stop="openConfirmDialog(order.id)"
+                  >
+                    +
+                  </button>
+                  <!-- Нажимаешь + (x) — запоминается id нужного заказа, показывается диалог. -->
+                  <!-- После удаления — заказ исчезает из списка, диалог закрывается. -->
+                  <button
+                    class="order-table__edit-btn"
+                    @click.stop="router.push({ name: 'editOrder', params: { id: order.id } })"
+                  >
+                    <img
+                      src="@/assets/icons/edit.svg"
+                      alt="edit"
+                    />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </TransitionGroup>
+        </tbody>
+      </table>
+
+      <ConfirmDialog
+        v-model="isOpenConfirm"
+        @ok="handleDelete"
+      />
+      <!-- Нажимаешь "ok" — вызывается deleteOrder(id) -->
+    </div>
   </div>
 </template>
 
