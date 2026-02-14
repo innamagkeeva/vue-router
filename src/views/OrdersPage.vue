@@ -101,6 +101,7 @@ function goToCreateOrder() {
       <p class="list-orders__title">Список заказов</p>
       <BaseButton @click="goToCreateOrder">Создать заказ ({{ props.user?.role }})</BaseButton>
     </div>
+
     <!-- Если еще не загрузилось ничего, то крутится спиннер -->
     <div
       v-if="orders === null"
@@ -108,11 +109,6 @@ function goToCreateOrder() {
     >
       <div class="spinner"></div>
       <p>Загрузка...</p>
-    </div>
-
-    <!-- Если галочки фильтров сняты, то заголовок "НЕТ ЗАКАЗОВ" -->
-    <div v-else-if="filteredOrders.length === 0">
-      <p>Нет заказов</p>
     </div>
 
     <!-- Если заказы есть, то загружается таблица -->
@@ -137,8 +133,14 @@ function goToCreateOrder() {
       status → 'Новый' | 'В процессе' | ...
       слово 'checked'если не подсвечивает, можно заменить на '_' или настроить ESLint, чтобы он такое подсвечивал, но можно оставить и так-все работает -->
       </div>
-
-      <table class="order-table">
+      <!-- Если галочки фильтров сняты, то заголовок "НЕТ ЗАКАЗОВ" -->
+      <div v-if="filteredOrders.length === 0">
+        <p>Нет заказов с выбранными статусами</p>
+      </div>
+      <table
+        v-else
+        class="order-table"
+      >
         <thead>
           <tr>
             <th class="order-table__user-name">Имя заказчика</th>
