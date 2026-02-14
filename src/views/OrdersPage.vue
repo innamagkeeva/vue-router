@@ -156,7 +156,7 @@ function goToCreateOrder() {
             <td class="order-table__comment">{{ order.comment }}</td>
             <td class="order-table__product">{{ order.orderName }}</td>
             <td class="order-table__delete-edit">
-              <div class="order-table__buttons">
+              <div class="order-table__buttons order-table__buttons-side">
                 <button
                   class="order-table__delete-btn"
                   @click.stop="openConfirmDialog(order.id)"
@@ -288,6 +288,11 @@ function goToCreateOrder() {
 .order-table__delete-btn {
   transform: rotate(45deg);
   font-size: 24px;
+  z-index: -1;
+}
+
+.order-table__buttons-side {
+  padding: 10px 30px;
 }
 
 .order-table__delete-btn:hover,
@@ -360,3 +365,6 @@ function goToCreateOrder() {
  
  border-collapse: collapse;
   /* Оно объединяет (схлопывает) границы ячеек так, что между ними не остаётся промежутков, и они делят одну общую границу. */-->
+
+<!-- ВОПРОС: по какой причине после создания  класса .order-table__buttons-side {
+  padding: 10px 30px;} у кнопки удаления стал высокий приоритет, и именно х стал выезжать выше в шапку. правильно ли в этой ситуации сделать кнопке удаления z-index минусовой?-->
