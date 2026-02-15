@@ -27,6 +27,16 @@ const filteredOrders = computed(() => {
   return orders.value.filter((order) => statusFilters.value[order.status])
 })
 
+const selectedOrderId = ref<string | null>(null)
+
+const isOpenConfirm = ref(false)
+
+const isFiltersChanged = computed(() => {
+  return Object.values(statusFilters.value).some((value) => !value)
+})
+// Что делает:берёт все значения (true/false).если есть хотя бы один false → возвращает true
+// .some() — это метод массива, который: проверяет, есть ли хотя бы один элемент, который подходит под условие И возвращает: true — если найден хотя бы один подходящий элемент false — если ни одного нет.                              Синтаксис: array.some((element) => условие)
+
 async function getOrders() {
   try {
     const response = await ordersApi.getAll()
@@ -62,6 +72,13 @@ function statusColor(status: OrderStatus) {
   }
 }
 
+function resetFilters() {
+  for (const status in statusFilters.value) {
+    statusFilters.value[status as OrderStatus] = true
+  }
+}
+//мы проходим по всем ключам объекта и каждому статусу ставим true
+
 async function deleteOrder(id: string) {
   try {
     await ordersApi.delete(id)
@@ -73,9 +90,6 @@ async function deleteOrder(id: string) {
     console.log(error)
   }
 }
-const selectedOrderId = ref<string | null>(null)
-
-const isOpenConfirm = ref(false)
 
 function openConfirmDialog(id: string) {
   selectedOrderId.value = id
@@ -129,10 +143,16 @@ function goToCreateOrder() {
           />
         </label>
         <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
-      checked → true / false
-      status → 'Новый' | 'В процессе' | ...
-      слово 'checked'если не подсвечивает, можно заменить на '_' или настроить ESLint, чтобы он такое подсвечивал, но можно оставить и так-все работает -->
+        checked → true / false
+        status → 'Новый' | 'В процессе' | ...
+        слово 'checked'если не подсвечивает, можно заменить на '_' или настроить ESLint, чтобы он такое подсвечивал, но можно оставить и так-все работает -->
+        <BaseButton
+          v-if="isFiltersChanged"
+          @click="resetFilters"
+          >Сбросить фильтры</BaseButton
+        >
       </div>
+
       <!-- Если галочки фильтров сняты, то заголовок "НЕТ ЗАКАЗОВ" -->
       <div v-if="filteredOrders.length === 0">
         <p>Нет заказов с выбранными статусами</p>
@@ -241,6 +261,7 @@ function goToCreateOrder() {
   gap: 20px;
   padding: 10px 20px;
   margin-bottom: 20px;
+  min-height: 60px;
 }
 
 .status-filter {
@@ -249,6 +270,10 @@ function goToCreateOrder() {
   gap: 3px;
 }
 
+.status-filters__btn {
+  padding: 10px;
+  border: 1px solid black;
+}
 .order-table {
   width: 100%;
   border-collapse: collapse;
