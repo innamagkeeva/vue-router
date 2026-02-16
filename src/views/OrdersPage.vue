@@ -14,6 +14,7 @@ const props = defineProps<{
   user: User | null
 }>()
 
+// (1) Состояние фильтров
 const statusFilters = ref<Record<OrderStatus, boolean>>({
   Новый: true,
   'В процессе': true,
@@ -27,16 +28,19 @@ const filteredOrders = computed(() => {
   return orders.value.filter((order) => statusFilters.value[order.status])
 })
 
+// (2) Состояние выбранного заказа
 const selectedOrderId = ref<string | null>(null)
 
 const isOpenConfirm = ref(false)
 
+// (3) Фильтруем заказы по статусам
 const isFiltersChanged = computed(() => {
   return Object.values(statusFilters.value).some((value) => !value)
 })
 // Что делает:берёт все значения (true/false).если есть хотя бы один false → возвращает true
 // .some() — это метод массива, который: проверяет, есть ли хотя бы один элемент, который подходит под условие И возвращает: true — если найден хотя бы один подходящий элемент false — если ни одного нет.                              Синтаксис: array.some((element) => условие)
 
+// (4) Получение заказов
 async function getOrders() {
   try {
     const response = await ordersApi.getAll()
@@ -52,10 +56,23 @@ async function getOrders() {
   }
 }
 
+// функция сохраНЕНИЯ фильтров в localStorage
+function saveFilters() {
+  localStorage.setItem('orderStatusFilters', JSON.stringify(statusFilters.value))
+}
+
+// Хук жизненного цикла ДоМонтирование
 onMounted(() => {
   getOrders()
+  //  восстанавливаем фильтры из localStorage (встроенное хранилище в браузере), т.е. читается сохранеННЫЕ фильтры
+  const savedFilters = localStorage.getItem('orderStatusFilters') // orderStatusFilters - это ключ из localStorage
+
+  if (savedFilters) {
+    statusFilters.value = JSON.parse(savedFilters)
+  }
 })
 
+// (5) Цвет статуса
 function statusColor(status: OrderStatus) {
   switch (status) {
     case 'Новый':
@@ -72,13 +89,16 @@ function statusColor(status: OrderStatus) {
   }
 }
 
+// (6) Сброс фильтров
 function resetFilters() {
   for (const status in statusFilters.value) {
     statusFilters.value[status as OrderStatus] = true
   }
+  saveFilters() // сохраняем изменения
 }
-//мы проходим по всем ключам объекта и каждому статусу ставим true
+// мы проходим по всем ключам объекта и каждому статусу ставим true
 
+// (7) Удаление заказа
 async function deleteOrder(id: string) {
   try {
     await ordersApi.delete(id)
@@ -91,6 +111,7 @@ async function deleteOrder(id: string) {
   }
 }
 
+// (8) Диалог подтверждения удаления
 function openConfirmDialog(id: string) {
   selectedOrderId.value = id
   isOpenConfirm.value = true
@@ -104,6 +125,7 @@ async function handleDelete() {
   selectedOrderId.value = null
 }
 
+// (9) Переход на создание заказа
 function goToCreateOrder() {
   router.push({ name: 'createOrder' })
 }
@@ -140,7 +162,9 @@ function goToCreateOrder() {
           <input
             type="checkbox"
             v-model="statusFilters[status]"
+            @change="saveFilters"
           />
+          <!-- @change- слушатель события. когда отметка инпута меняется, фильтры сразу сохраняются-->
         </label>
         <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
         checked → true / false
