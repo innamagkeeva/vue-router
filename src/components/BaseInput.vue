@@ -1,31 +1,39 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   label: string
   id: string
   type?: string
   placeholder?: string
   modelValue: string
+  maxLength?: number
 }>()
 
 defineEmits<{
   'update:modelValue': [value: string]
 }>()
 // Для себя: тут не нужно const emit= потому что эмитим в шаблоне (нет функции)
+
+const currentLength = computed(() => props.modelValue.length)
 </script>
 
 <template>
   <div class="form__user-data">
     <label
-      class="form__title"
+      class="form__title form__title-counter"
       :for="id"
-      >{{ label }}</label
-    >
+      ><span>{{ label }}</span>
+      <span v-if="maxLength">{{ currentLength }} / {{ maxLength }}</span>
+    </label>
+
     <input
       class="input__order"
       :id="id"
       :type="type || 'text'"
       :placeholder="placeholder"
       :value="modelValue"
+      :maxlength="maxLength"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
   </div>
@@ -36,7 +44,13 @@ defineEmits<{
 .form__title {
   display: block;
   margin-bottom: 10px;
-  width: 115px;
+  width: 100%;
+}
+
+.form__title-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form__user-data {

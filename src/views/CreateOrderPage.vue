@@ -142,6 +142,7 @@ function goToHomePage() {
             label="Имя заказчика"
             v-model="orderForm.userName"
             placeholder="Введите имя"
+            :max-length="15"
           />
           <p class="error">
             {{ errors.userName }}
@@ -155,6 +156,7 @@ function goToHomePage() {
             label="Адрес"
             v-model="orderForm.address"
             placeholder="Город, улица, дом, кв"
+            :max-length="50"
           />
           <p class="error">
             {{ errors.address }}
@@ -202,6 +204,7 @@ function goToHomePage() {
           label="Название товара"
           v-model="orderForm.product"
           placeholder="Начните вводить название товара"
+          :max-length="20"
         />
         <p class="error">
           {{ errors.product }}
@@ -235,6 +238,7 @@ function goToHomePage() {
 
 .form__row {
   display: flex;
+
   margin-bottom: 10px;
 }
 
@@ -265,6 +269,7 @@ function goToHomePage() {
 }
 
 .form__block {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
