@@ -23,35 +23,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="title">ВАШ ЗАКАЗ:</h1>
+  <div class="oneOrder">
+    <h1 class="oneOrder__page-title">ВАШ ЗАКАЗ:</h1>
 
-  <div
-    v-if="order"
-    class="order__card"
-  >
-    <h2 class="order__title">Заказчик: {{ order.userName }}</h2>
-    <p class="oder__element"><strong>Товар:</strong> {{ order.orderName }}</p>
-    <p class="oder__element"><strong>Адрес:</strong> {{ order.address }}</p>
-    <p class="oder__element"><strong>Комментарий:</strong> {{ order.comment }}</p>
-    <p class="oder__element"><strong>Статус:</strong> {{ order.status }}</p>
-    <p class="oder__element">
-      <strong>Дата:</strong> {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
-    </p>
-  </div>
+    <div
+      v-if="order"
+      class="oneOrder__card"
+    >
+      <h2 class="oneOrder__title">Заказчик: {{ order.userName }}</h2>
+      <p class="oneOrder__element"><strong>Товар:</strong> {{ order.orderName }}</p>
+      <p class="oneOrder__element"><strong>Адрес:</strong> {{ order.address }}</p>
+      <p class="oneOrder__element"><strong>Комментарий:</strong> {{ order.comment }}</p>
+      <p class="oneOrder__element"><strong>Статус:</strong> {{ order.status }}</p>
+      <p class="oneOrder__element">
+        <strong>Дата:</strong> {{ new Date(Number(order.date)).toLocaleDateString('ru-RU') }}
+      </p>
+    </div>
 
-  <div v-else>
-    <p>Загрузка заказа...</p>
+    <div v-else>
+      <p>Загрузка заказа...</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.title {
+.oneOrder__page-title {
   width: 220px;
   margin: 0 auto;
   margin-bottom: 40px;
 }
 
-.order__card {
+.oneOrder__card {
   padding: 10px;
   width: 350px;
   height: 360px;
@@ -61,11 +63,11 @@ onMounted(() => {
   margin-bottom: 20px;
 }
 
-.order__title {
+.oneOrder__title {
   margin-bottom: 30px;
 }
 
-.oder__element {
+.oneOrder__element {
   margin-bottom: 25px;
 }
 </style>
