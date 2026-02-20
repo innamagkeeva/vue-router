@@ -36,15 +36,18 @@ defineEmits<{
 
 .comment__textarea {
   width: 100%;
-  height: 70px;
+  min-height: 70px;
+  max-height: 200px;
+  resize: vertical;
   border: 1px solid gray;
   border-radius: 5px;
-  padding-left: 10px;
+  padding: 10px;
 }
 
 .comment {
   display: flex;
   flex-direction: column;
+  padding: 10px;
   margin-bottom: 10px;
 }
 </style>

@@ -233,7 +233,7 @@ function goToHomePage() {
 .title {
   width: 200px;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .form__row {
@@ -247,7 +247,7 @@ function goToHomePage() {
 }
 
 .input__order {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .form__buttons {
