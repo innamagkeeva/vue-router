@@ -134,6 +134,7 @@ onMounted(getOrder)
             id="edit-user-name"
             label="Имя заказчика"
             v-model="orderForm.userName"
+            :max-length="15"
           />
           <p class="error">{{ errors.userName }}</p>
         </div>
@@ -144,6 +145,7 @@ onMounted(getOrder)
             id="edit-address"
             label="Адрес"
             v-model="orderForm.address"
+            :max-length="50"
           />
           <p class="error">{{ errors.address }}</p>
         </div>
@@ -179,6 +181,7 @@ onMounted(getOrder)
           id="product"
           label="Название товара"
           v-model="orderForm.product"
+          :max-length="20"
         />
         <p class="error">{{ errors.product }}</p>
       </div>
