@@ -1,13 +1,10 @@
 <script setup lang="ts">
+const model = defineModel<string>()
+
 defineProps<{
   label: string
   id: string
   placeholder?: string
-  modelValue: string
-}>()
-
-defineEmits<{
-  'update:modelValue': [value: string]
 }>()
 </script>
 
@@ -22,8 +19,7 @@ defineEmits<{
       class="comment__textarea"
       :id="id"
       :placeholder="placeholder"
-      :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
+      v-model="model"
     ></textarea>
   </div>
 </template>
