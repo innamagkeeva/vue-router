@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps<{
+const model = defineModel<string>({ default: '' })
+// { default: '' } = не вызовет ошибки при пустой строке
+
+defineProps<{
   label: string
   id: string
   type?: string
   placeholder?: string
-  modelValue: string
   maxLength?: number
 }>()
 
-defineEmits<{
-  'update:modelValue': [value: string]
-}>()
-// Для себя: тут не нужно const emit= потому что эмитим в шаблоне (нет функции)
-
-const currentLength = computed(() => props.modelValue.length)
+const currentLength = computed(() => model.value.length)
 </script>
 
 <template>
@@ -32,9 +29,8 @@ const currentLength = computed(() => props.modelValue.length)
       :id="id"
       :type="type || 'text'"
       :placeholder="placeholder"
-      :value="modelValue"
       :maxlength="maxLength"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      v-model="model"
     />
   </div>
 </template>

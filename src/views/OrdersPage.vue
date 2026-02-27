@@ -344,7 +344,7 @@ function goToCreateOrder() {
 .order-table__delete-btn {
   transform: rotate(45deg);
   font-size: 24px;
-  z-index: -1;
+  /* z-index: -1; */
 }
 
 .order-table__buttons-side {

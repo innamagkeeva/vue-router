@@ -20,5 +20,6 @@ defineProps<{
   font-size: 25px;
   background-color: white;
   position: fixed;
+  z-index: 2;
 }
 </style>
