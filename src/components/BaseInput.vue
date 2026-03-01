@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useAttrs } from 'vue'
-
-const attrs = useAttrs()
-
-const inputElement = ref<HTMLInputElement | null>(null)
+import { computed, ref } from 'vue'
 
 const model = defineModel<string>({ default: '' })
 // { default: '' } = не вызовет ошибки при пустой строке
@@ -18,11 +14,17 @@ defineProps<{
   maxLength?: number
 }>()
 
-onMounted(() => {
-  if (attrs.autofocus !== undefined) {
-    inputElement.value?.focus()
-  }
+const inputRef = ref<HTMLInputElement | null>(null)
+
+function focus() {
+  inputRef.value?.focus()
+}
+
+defineExpose({
+  focus,
 })
+// defineExpose — всегда пишется в дочернем компоненте
+// ref + onMounted — всегда пишется в родителе (странице)
 </script>
 
 <template>
@@ -35,8 +37,7 @@ onMounted(() => {
     </label>
 
     <input
-      ref="inputElement"
-      v-bind="$attrs"
+      ref="inputRef"
       class="input__order"
       :id="id"
       :type="type || 'text'"
@@ -44,7 +45,6 @@ onMounted(() => {
       :maxlength="maxLength"
       v-model="model"
     />
-    <!-- Все неизвестные атрибуты компонента попадают в $attrs.Но по умолчанию они навешиваются на корневой элемент (div).Нам нужно перенаправить их на <input>. v-bind="$attrs" делает именно это. -->
   </div>
 </template>
 

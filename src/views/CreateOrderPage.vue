@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
@@ -28,6 +28,15 @@ const errors = reactive({
   product: '',
   status: '',
 })
+
+const userNameInput = ref<InstanceType<typeof BaseInput> | null>(null)
+
+onMounted(() => {
+  userNameInput.value?.focus()
+})
+
+// defineExpose — всегда пишется в дочернем компоненте
+// ref + onMounted — всегда пишется в родителе (странице)
 
 // Функции валидации:
 
@@ -138,12 +147,12 @@ function goToHomePage() {
       <div class="form__row">
         <div class="form__block">
           <BaseInput
+            ref="userNameInput"
             id="user-name"
             label="Имя заказчика"
             v-model="orderForm.userName"
             placeholder="Введите имя"
             :max-length="15"
-            autofocus
           />
           <p class="error">
             {{ errors.userName }}
