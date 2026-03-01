@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref, useAttrs } from 'vue'
+
+const attrs = useAttrs()
+
+const inputElement = ref<HTMLInputElement | null>(null)
 
 const model = defineModel<string>({ default: '' })
 // { default: '' } = не вызовет ошибки при пустой строке
+
+const currentLength = computed(() => model.value.length)
 
 defineProps<{
   label: string
@@ -12,7 +18,11 @@ defineProps<{
   maxLength?: number
 }>()
 
-const currentLength = computed(() => model.value.length)
+onMounted(() => {
+  if (attrs.autofocus !== undefined) {
+    inputElement.value?.focus()
+  }
+})
 </script>
 
 <template>
@@ -25,6 +35,8 @@ const currentLength = computed(() => model.value.length)
     </label>
 
     <input
+      ref="inputElement"
+      v-bind="$attrs"
       class="input__order"
       :id="id"
       :type="type || 'text'"
@@ -32,9 +44,9 @@ const currentLength = computed(() => model.value.length)
       :maxlength="maxLength"
       v-model="model"
     />
+    <!-- Все неизвестные атрибуты компонента попадают в $attrs.Но по умолчанию они навешиваются на корневой элемент (div).Нам нужно перенаправить их на <input>. v-bind="$attrs" делает именно это. -->
   </div>
 </template>
-<!-- $emit или $event - ($) Это данные эмита или события -->
 
 <style scoped>
 .form__title {

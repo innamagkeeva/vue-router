@@ -143,6 +143,7 @@ function goToHomePage() {
             v-model="orderForm.userName"
             placeholder="Введите имя"
             :max-length="15"
+            autofocus
           />
           <p class="error">
             {{ errors.userName }}
