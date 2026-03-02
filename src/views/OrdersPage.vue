@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { ordersApi, type Order, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import { AxiosError } from 'axios'
@@ -57,9 +57,19 @@ async function getOrders() {
 }
 
 // функция сохраНЕНИЯ фильтров в localStorage
-function saveFilters() {
-  localStorage.setItem('orderStatusFilters', JSON.stringify(statusFilters.value))
-}
+// function saveFilters() {
+//   localStorage.setItem('orderStatusFilters', JSON.stringify(statusFilters.value))
+// }
+// СДЕЛАЕМ ЭТУ ФУНКЦИЮ ЧЕРЕЗ watch:
+
+watch(
+  statusFilters,
+  (newFilters) => {
+    localStorage.setItem('orderStatusFilters', JSON.stringify(newFilters))
+  },
+  { deep: true },
+)
+// Без { deep: true } не сработает, потому что orderStatusFilters-это объект и watch не увидит изменения
 
 // Хук жизненного цикла ДоМонтирование
 onMounted(() => {
@@ -94,7 +104,6 @@ function resetFilters() {
   for (const status in statusFilters.value) {
     statusFilters.value[status as OrderStatus] = true
   }
-  saveFilters() // сохраняем изменения
 }
 // мы проходим по всем ключам объекта и каждому статусу ставим true
 
@@ -162,9 +171,7 @@ function goToCreateOrder() {
           <input
             type="checkbox"
             v-model="statusFilters[status]"
-            @change="saveFilters"
           />
-          <!-- @change- слушатель события. когда отметка инпута меняется, фильтры сразу сохраняются-->
         </label>
         <!-- Как это читается: «Пройтись по объекту statusFilters и для каждой пары (значение, ключ) создать label»  Важно: Для объектов порядок такой: (value, key) а не наоборот,То есть:
         checked → true / false

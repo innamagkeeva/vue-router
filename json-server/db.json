@@ -10,13 +10,13 @@
       "date": 1768255778282
     },
     {
+      "id": "948cafd7-32ef-4235-8148-a8937fe2f190",
+      "userName": "Степан Степанов",
       "address": "Екатеринбург, улица Челюскиной, 222",
       "comment": "нет домофона",
-      "userName": "Степан Степанов",
       "orderName": "раковина",
-      "id": "948cafd7-32ef-4235-8148-a8937fe2f190",
-      "status": "Новый",
-      "date": 1655240400000
+      "status": "Выполнен",
+      "date": 1655164800000
     },
     {
       "id": "4f21935b-6634-4d19-ad1d-e0169bff53b2",
@@ -95,8 +95,8 @@
       "userName": "wsfe",
       "address": "huuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
       "comment": "67ie7e7eytj",
-      "orderName": "шампунь",
-      "status": "Новый",
+      "orderName": "лак для волос",
+      "status": "В процессе",
       "date": 1772150400000
     }
   ]
