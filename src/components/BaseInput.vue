@@ -23,7 +23,7 @@ function focus() {
 defineExpose({
   focus,
 })
-// defineExpose — всегда пишется в дочернем компоненте
+// defineExpose — всегда пишется в дочернем компоненте как тут
 // ref + onMounted — всегда пишется в родителе (странице)
 </script>
 

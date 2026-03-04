@@ -61,7 +61,6 @@ async function getOrders() {
 //   localStorage.setItem('orderStatusFilters', JSON.stringify(statusFilters.value))
 // }
 // СДЕЛАЕМ ЭТУ ФУНКЦИЮ ЧЕРЕЗ watch:
-
 watch(
   statusFilters,
   (newFilters) => {

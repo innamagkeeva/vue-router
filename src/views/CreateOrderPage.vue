@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
@@ -9,6 +9,7 @@ import BaseTextarea from '@/components/BaseTextarea.vue'
 
 const router = useRouter()
 
+// Состояние формы
 const orderForm = reactive({
   userName: '',
   address: '',
@@ -18,8 +19,7 @@ const orderForm = reactive({
   status: '' as OrderStatus | '',
 })
 
-// Создаем отдельный объект errors/ с теми же полями, что и в orderForm. !! тут НЕ дублируется ничего(orderForm и errors),одинаковые ключи но разный смысл,разный жизненный цикл
-
+// Создаем отдельный объект errors с теми же полями, что и в orderForm. !! тут НЕ дублируется ничего(orderForm и errors),одинаковые ключи но разный смысл,разный жизненный цикл. то есть пока ошибки нет - поле пустое - не отображается на страницы.
 const errors = reactive({
   userName: '',
   address: '',
@@ -29,17 +29,28 @@ const errors = reactive({
   status: '',
 })
 
+// Автофокус при загрузке
 const userNameInput = ref<InstanceType<typeof BaseInput> | null>(null)
-
 onMounted(() => {
   userNameInput.value?.focus()
 })
 
+// ref + onMounted — всегда пишется в родителе (странице) как тут
 // defineExpose — всегда пишется в дочернем компоненте
-// ref + onMounted — всегда пишется в родителе (странице)
 
-// Функции валидации:
+watch(
+  () => orderForm.userName,
+  (newValue: string) => {
+    if (!newValue) return
 
+    const formatted = newValue[0].toUpperCase() + newValue.slice(1).trim()
+    if (newValue !== formatted) {
+      orderForm.userName = formatted
+    }
+  },
+) // Почему через функцию? Потому что orderForm не ref, а reactive нужно "доставать" через стрелочную функцию.
+
+// Функции валидации (каждое поле проверяется отдельно):
 function validateUserName() {
   errors.userName = orderForm.userName.length > 2 ? '' : 'Заполните это поле'
 }
@@ -64,6 +75,7 @@ function validateStatus() {
   errors.status = orderForm.status ? '' : 'Заполните это поле'
 }
 
+// функция запускает все проверки сразу,проверяет что все ошибки пустые, возвращает true или false
 function validateForm() {
   validateUserName()
   validateAddress()
@@ -71,7 +83,6 @@ function validateForm() {
   validateComment()
   validateProduct()
   validateStatus()
-
   return (
     !errors.userName &&
     !errors.address &&
@@ -82,6 +93,7 @@ function validateForm() {
   )
 }
 
+// После успешного создания заказа очищает все поля.
 function resetForm() {
   orderForm.address = ''
   orderForm.comment = ''
@@ -91,6 +103,7 @@ function resetForm() {
   orderForm.status = ''
 }
 
+// Что происходит:1)Отправляется запрос через ordersApi.create 2)Дата переводится в timestamp 3)id создаётся через Date.now() 4)После успеха — форма сбрасывается .Это асинхронная функция с try/catch.
 async function createOrder(status: OrderStatus) {
   try {
     const response = await ordersApi.create({
@@ -125,6 +138,7 @@ async function createOrder(status: OrderStatus) {
 //   }
 // } Эта функция рабочая была до того, как сделали чтоб после нажатия на кнопку "Сохранить" под незаполненным полем выскакивала предупреждение.
 
+// Логика: 1)Нажали "Сохранить" 2)Проверяем форму 3)Если есть ошибка → выходим 4)Если всё ок → создаём заказ
 function saveOrder() {
   if (!validateForm()) {
     return
@@ -132,6 +146,7 @@ function saveOrder() {
   createOrder(orderForm.status as OrderStatus)
 }
 
+// Кнопка "Отменить" возвращает на главную страницу.
 function goToHomePage() {
   router.push({ name: 'home' })
 }
@@ -293,3 +308,6 @@ function goToHomePage() {
 
 <!-- для себя:  | - типовой "или". те "а" или "b" или "с" (точнее - может быть или "а" или "b" -любой) ,   || - логический OR те: а||b если а-тру - покажет а, если а - фолс - покажет b. 
   -->
+
+<!-- Для себя: !!WATCH!! . watch = наблюдатель.Он говорит: "Когда вот это значение изменится — сделай вот это." 
+ watch(что_наблюдаем, что_делаем_когда_изменилось =>{ ...})-->
