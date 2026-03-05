@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ordersApi, type Order } from '@/api/orders'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
+
 const order = ref<Order | null>(null)
+
+const loading = ref(true)
 
 async function getOrder() {
   try {
@@ -12,10 +16,12 @@ async function getOrder() {
     const response = await ordersApi.getOrder(id)
     order.value = response.data
     console.log('Заказ получен:', response.data)
-  } catch (error) {
-    console.error('Ошибка при получении заказа:', error)
+  } catch {
+    router.replace({ name: 'notFound' })
+  } finally {
+    loading.value = false
   }
-}
+} // Тут в catch не стали писать ошибку, потому что без разницы какого она формата, в любом случае-если нет заказа-значит перекидывает на страницу 404.
 
 onMounted(() => {
   getOrder()
