@@ -92,5 +92,6 @@ function togglePassword() {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
 }
 </style>
