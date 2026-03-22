@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 
 const model = defineModel<string>({ default: '' })
 // { default: '' } = не вызовет ошибки при пустой строке
@@ -14,7 +14,8 @@ defineProps<{
   maxLength?: number
 }>()
 
-const inputRef = ref<HTMLInputElement | null>(null)
+const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
+// useTemplateRef указывает что это инпут, и делает внутри: const inputRef = ref <HTMLInputElement | null>(null)
 
 function focus() {
   inputRef.value?.focus()
@@ -24,7 +25,7 @@ defineExpose({
   focus,
 })
 // defineExpose — всегда пишется в дочернем компоненте как тут
-// ref + onMounted — всегда пишется в родителе (странице)
+// useTemplateRef + onMounted — всегда пишется в родителе (странице)
 </script>
 
 <template>

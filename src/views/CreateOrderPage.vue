@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, useTemplateRef, watch } from 'vue'
 import { ordersApi, type OrderStatus } from '@/api/orders'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
@@ -30,12 +30,12 @@ const errors = reactive({
 })
 
 // Автофокус при загрузке
-const userNameInput = ref<InstanceType<typeof BaseInput> | null>(null)
+const userNameInput = useTemplateRef<InstanceType<typeof BaseInput>>('userNameInput')
 onMounted(() => {
   userNameInput.value?.focus()
 })
 
-// ref + onMounted — всегда пишется в родителе (странице) как тут
+// useTemplateRef + onMounted — всегда пишется в родителе (странице) как тут
 // defineExpose — всегда пишется в дочернем компоненте
 
 watch(
@@ -306,8 +306,8 @@ function goToHomePage() {
 }
 </style>
 
-<!-- для себя:  | - типовой "или". те "а" или "b" или "с" (точнее - может быть или "а" или "b" -любой) ,   || - логический OR те: а||b если а-тру - покажет а, если а - фолс - покажет b. 
+<!-- для себя:  | - типовой "или". те "а" или "b" или "с" (точнее - может быть или "а" или "b" -любой) ,   || - логический OR те: а||b если а-тру - покажет а, если а - фолс - покажет b.
   -->
 
-<!-- Для себя: !!WATCH!! . watch = наблюдатель.Он говорит: "Когда вот это значение изменится — сделай вот это." 
+<!-- Для себя: !!WATCH!! . watch = наблюдатель.Он говорит: "Когда вот это значение изменится — сделай вот это."
  watch(что_наблюдаем, что_делаем_когда_изменилось =>{ ...})-->
