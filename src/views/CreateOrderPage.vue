@@ -30,7 +30,7 @@ const errors = reactive({
 })
 
 // Автофокус при загрузке
-const userNameInput = useTemplateRef<InstanceType<typeof BaseInput>>('userNameInput')
+const userNameInput = useTemplateRef('userNameInput') // useTemplateRef указывает что это инпут, и делает внутри: const userNameInput = ref <HTMLInputElement | null>(null)
 onMounted(() => {
   userNameInput.value?.focus()
 })

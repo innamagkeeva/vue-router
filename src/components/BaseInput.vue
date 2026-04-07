@@ -14,7 +14,7 @@ defineProps<{
   maxLength?: number
 }>()
 
-const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
+const inputRef = useTemplateRef('inputRef')
 // useTemplateRef указывает что это инпут, и делает внутри: const inputRef = ref <HTMLInputElement | null>(null)
 
 function focus() {
